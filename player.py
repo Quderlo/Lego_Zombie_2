@@ -22,13 +22,13 @@ class Player(object):
         screen.blit(self.image, self.rect)
         key = pygame.key.get_pressed()
 
-        if key[pygame.K_LEFT]:
+        if key[pygame.K_LEFT] and not(self.rect.left <= 0):
             self.move(-1, 0)
-        if key[pygame.K_RIGHT]:
+        if key[pygame.K_RIGHT] and not(self.rect.right >= width):
             self.move(1, 0)
-        if key[pygame.K_UP]:
+        if key[pygame.K_UP] and not(self.rect.top <= 0):
             self.move(0, -1)
-        if key[pygame.K_DOWN]:
+        if key[pygame.K_DOWN] and not(self.rect.bottom >= height):
             self.move(0, 1)
 
 
@@ -37,11 +37,11 @@ class Player2(Player):
         screen.blit(self.image, self.rect)
         key = pygame.key.get_pressed()
 
-        if key[pygame.K_a]:
+        if key[pygame.K_a] and not(self.rect.left <= 0):
             self.move(-1, 0)
-        if key[pygame.K_d]:
+        if key[pygame.K_d] and not(self.rect.right >= width):
             self.move(1, 0)
-        if key[pygame.K_w]:
+        if key[pygame.K_w] and not(self.rect.top <= 0):
             self.move(0, -1)
-        if key[pygame.K_s]:
+        if key[pygame.K_s] and not(self.rect.bottom >= height):
             self.move(0, 1)

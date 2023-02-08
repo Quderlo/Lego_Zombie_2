@@ -3,7 +3,7 @@ import sys
 import pygame
 from game_background import Background, get_font
 from player import Player, Player2, screen
-from constants import width, height, player_size
+from constants import width, height, player_size, bg_size_x, bg_size_y
 from button import Button
 
 
@@ -26,10 +26,10 @@ def play_solo():
     pygame.display.set_caption("Play")
 
     while True:
-        for i in range(6):
-            for j in range(8):
-                screen.blit(in_game_Background[i][j].coord[2],
-                            (in_game_Background[i][j].coord[0], in_game_Background[i][j].coord[1]))
+        for i in range(int(height / bg_size_y)):
+            for j in range(int(width / bg_size_x)):
+                screen.blit(in_game_Background[i][j].get_texture(),
+                            (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
         player.movement()
 
@@ -42,10 +42,11 @@ def play_solo():
 
 def play_duo():
     while True:
-        for i in range(6):
-            for j in range(8):
-                screen.blit(in_game_Background[i][j].coord[2],
-                            (in_game_Background[i][j].coord[0], in_game_Background[i][j].coord[1]))
+        for i in range(int(height / bg_size_y)):
+            for j in range(int(width / bg_size_x)):
+                screen.blit(in_game_Background[i][j].get_texture(),
+                            (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
+
 
         player.movement()
         player2.movement()
