@@ -1,4 +1,5 @@
 import sys
+import time
 
 import pygame
 from game_background import Background, get_font, menu_BG
@@ -10,8 +11,7 @@ from enemy.enemy import zombie, zombie_group
 
 pygame.init()
 pygame.display.set_caption("Menu")
-in_game_Background = Background  # TODO: Убрать все загрузки картинок в отдельный файл
-
+in_game_Background = Background
 
 
 def play_solo():
@@ -27,14 +27,13 @@ def play_solo():
 
         player.movement()
 
-        kek = player.get_coord()
-        kek_x = kek[0]
-        kek_y = kek[1]
-        zombie_group.add(zombie)
-        zombie.move(kek_x, kek_y)
-        zombie_group.draw(screen)
+        player1 = player.get_coord()
+        player1_x = player1[0]
+        player1_y = player1[1]
 
-        pygame.time.delay(5)
+        zombie.move(player1_x, player1_y)
+
+        pygame.time.delay(15)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -93,3 +92,5 @@ def main_menu():
 
 
 main_menu()
+
+
