@@ -5,6 +5,7 @@ from game_background import Background, get_font, menu_BG
 from player import screen, player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
+from enemy.enemy import zombie, zombie_group
 
 
 pygame.init()
@@ -22,6 +23,10 @@ def play_solo():
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
         player.movement()
+
+        zombie
+        zombie_group.add(zombie)
+        zombie_group.draw(screen)
 
         pygame.display.update()
         for event in pygame.event.get():
