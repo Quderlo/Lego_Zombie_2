@@ -34,5 +34,5 @@ class Enemy(object):
             self.rect.y -= 1
 
 
-zombie = Enemy(50, 50)  # Спавн (координата_х, координата_у) #TODO: перепсиать как player
-zombie_group = pygame.sprite.Group()
+zombie = Enemy(50, 50)
+

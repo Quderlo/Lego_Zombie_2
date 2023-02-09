@@ -1,12 +1,11 @@
 import sys
-import time
 
 import pygame
 from game_background import Background, get_font, menu_BG
 from player import screen, player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
-from enemy.enemy import zombie, zombie_group
+from enemy.enemy import zombie
 
 
 pygame.init()
@@ -92,5 +91,3 @@ def main_menu():
 
 
 main_menu()
-
-
