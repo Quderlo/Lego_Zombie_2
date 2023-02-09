@@ -5,6 +5,13 @@ pygame.init()
 
 screen = pygame.display.set_mode((width, height))
 
+player1_x = width / 2 - player_size
+player1_y = height / 2 - player_size
+player2_x = width / 2 - player_size
+player2_y = height / 2 - player_size
+
+player1_texture = pygame.image.load('images/player1.jpg').convert() # Что что а свой цвет игрок наверное знать должен
+player2_texture = pygame.image.load('images/player2.jpg').convert()
 
 class Player(object):
     def __init__(self, texture, px, py):
@@ -45,3 +52,6 @@ class Player2(Player):
             self.move(0, -1)
         if key[pygame.K_s] and not(self.rect.bottom >= height):
             self.move(0, 1)
+
+player = Player(player1_texture, player1_x, player1_y)
+player2 = Player2(player2_texture, player2_x, player2_y)

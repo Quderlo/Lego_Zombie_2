@@ -1,25 +1,15 @@
 import sys
 
 import pygame
-from game_background import Background, get_font
-from player import Player, Player2, screen
-from constants import width, height, player_size, bg_size_x, bg_size_y
+from game_background import Background, get_font, menu_BG
+from player import screen, player, player2
+from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 
 
 pygame.init()
 pygame.display.set_caption("Menu")
-
-player1_x = width / 2 - player_size
-player1_y = height / 2 - player_size
-
 in_game_Background = Background  # TODO: Убрать все загрузки картинок в отдельный файл
-menu_BG = pygame.image.load('images/main_menu.jpg').convert() # Это в game_bg.py
-player1_texture = pygame.image.load('images/player1.jpg').convert() # Что что а свой цвет игрок наверное знать должен
-player2_texture = pygame.image.load('images/player2.jpg').convert()
-
-player = Player(player1_texture, player1_x, player1_y)
-player2 = Player2(player2_texture, player1_x, player1_y)
 
 
 def play_solo():
@@ -46,7 +36,6 @@ def play_duo():
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
-
 
         player.movement()
         player2.movement()
