@@ -21,13 +21,13 @@ def play_solo():
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
-
+        player.set_coord()
         player.movement()
 
-        zombie
         zombie_group.add(zombie)
         zombie_group.draw(screen)
 
+        pygame.time.delay(5)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
