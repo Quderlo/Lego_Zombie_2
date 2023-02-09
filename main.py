@@ -13,6 +13,7 @@ pygame.display.set_caption("Menu")
 in_game_Background = Background  # TODO: Убрать все загрузки картинок в отдельный файл
 
 
+
 def play_solo():
     pygame.display.set_caption("Play")
 
@@ -21,10 +22,16 @@ def play_solo():
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
-        player.set_coord()
+
+        print("Player1 pos", player.get_coord(), "\t\tEnemy pos", zombie.get_coord())
+
         player.movement()
 
+        kek = player.get_coord()
+        kek_x = kek[0]
+        kek_y = kek[1]
         zombie_group.add(zombie)
+        zombie.move(kek_x, kek_y)
         zombie_group.draw(screen)
 
         pygame.time.delay(5)

@@ -23,7 +23,7 @@ class Bg(object):  # Описание заднего фона
     def get_texture(self):
         return self.texture
 
-    def hui(self):  # TODO: Переименовать
+    def hui(self):  # TODO: Переименовать            #TODO: AHAHAHAHHAHAHAHAHAHAH
         return self.pass_on
 
 
@@ -58,3 +58,4 @@ for i in range(int(height / bg_size_x)):  # Заполнение карты (с�
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
+#TODO: Повты клоуны

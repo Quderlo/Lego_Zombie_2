@@ -39,11 +39,13 @@ class Player(object):
         if key[pygame.K_DOWN] and not(self.rect.bottom >= height):
             self.move(0, player_move_speed)
 
-    def set_coord(self):
+    def get_coord(self):
         coord_x = self.rect.x
         coord_y = self.rect.y
 
-        print("player1 position: ", coord_x, " ", coord_y)
+        xx = coord_x
+        xy = coord_y
+        return [xx, xy]
 
 
 class Player2(Player):
