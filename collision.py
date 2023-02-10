@@ -1,9 +1,4 @@
 import pygame
-from player import player
-from enemy.enemy import zombie
-from constants import collision_tolerance
-
-pygame.init()
 
 """
 print(in_game_Background[player.rect.x // 100 + 1][player.rect.y // 100])
