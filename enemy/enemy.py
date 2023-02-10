@@ -16,12 +16,6 @@ class Enemy(object):
         self.rect.x = x
         self.rect.y = y
 
-    def get_coord(self):
-        coord_x = self.rect.x
-        coord_y = self.rect.y
-
-        return [coord_x, coord_y]
-
     def move(self, kek_x, kek_y):
         screen.blit(self.img, self.rect)
         if kek_x > self.rect.x:

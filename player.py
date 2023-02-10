@@ -39,14 +39,6 @@ class Player(object):
         if key[pygame.K_DOWN] and not(self.rect.bottom >= height):
             self.move(0, player_move_speed)
 
-    def get_coord(self):
-        coord_x = self.rect.x
-        coord_y = self.rect.y
-
-        xx = coord_x
-        xy = coord_y
-        return [xx, xy]
-
 
 class Player2(Player):
     def movement(self):
@@ -54,13 +46,13 @@ class Player2(Player):
         key = pygame.key.get_pressed()
 
         if key[pygame.K_a] and not(self.rect.left <= 0):
-            self.move(-1, 0)
+            self.move(-player_move_speed, 0)
         if key[pygame.K_d] and not(self.rect.right >= width):
-            self.move(1, 0)
+            self.move(player_move_speed, 0)
         if key[pygame.K_w] and not(self.rect.top <= 0):
-            self.move(0, -1)
+            self.move(0, -player_move_speed)
         if key[pygame.K_s] and not(self.rect.bottom >= height):
-            self.move(0, 1)
+            self.move(0, player_move_speed)
 
 
 player = Player(player1_texture, player1_x, player1_y)
