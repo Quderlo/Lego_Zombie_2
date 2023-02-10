@@ -10,7 +10,7 @@ player1_y = height / 2 - player_size
 player2_x = width / 2 - player_size
 player2_y = height / 2 - player_size
 
-player1_texture = pygame.image.load('images/player1.jpg').convert() # Что что а свой цвет игрок наверное знать должен
+player1_texture = pygame.image.load('images/player1.jpg').convert()
 player2_texture = pygame.image.load('images/player2.jpg').convert()
 
 
@@ -26,10 +26,11 @@ class Player(object):
         self.rect.x += diffx
         self.rect.y += diffy
 
-    def movement(self):
+    def render_player(self):
         screen.blit(self.image, self.rect)
-        key = pygame.key.get_pressed()
 
+    def movement(self):
+        key = pygame.key.get_pressed()
         if key[pygame.K_LEFT] and not(self.rect.left <= 0):
             self.move(-player_move_speed, 0)
         if key[pygame.K_RIGHT] and not(self.rect.right >= width):
@@ -42,9 +43,7 @@ class Player(object):
 
 class Player2(Player):
     def movement(self):
-        screen.blit(self.image, self.rect)
         key = pygame.key.get_pressed()
-
         if key[pygame.K_a] and not(self.rect.left <= 0):
             self.move(-player_move_speed, 0)
         if key[pygame.K_d] and not(self.rect.right >= width):
