@@ -24,6 +24,9 @@ pygame.init()
 pygame.display.set_caption("Menu")
 in_game_Background = Background
 
+ghost_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(ghost_timer, 100)
+
 
 def play_solo():
     pygame.display.set_caption("Play")
@@ -37,10 +40,10 @@ def play_solo():
         zombie.render_zombie()
         zombie_hit = zombie.attack_player(player.rect)
 
-        player.movement(zombie_hit[1])
+        player.movement()
         player.render_player()
 
-        if not zombie_hit[0]:
+        if not zombie_hit:
             zombie.move(player.rect.x, player.rect.y)
 
         pygame.time.delay(15)
@@ -49,13 +52,6 @@ def play_solo():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-
-ghost_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(ghost_timer, 100)
-
-one_x = 0
-one_y = 0
 
 
 def dist():
