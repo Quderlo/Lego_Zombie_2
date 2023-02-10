@@ -1,6 +1,7 @@
 from constants import collision_tolerance
 import pygame
 from player import screen
+import random
 
 
 pygame.init()
@@ -30,29 +31,29 @@ class Enemy(object):
 
     def attack_player(self, player_rect):  # TODO: Добавить анимации для зомби
         if pygame.Rect.colliderect(player_rect, self.rect):
-            if abs(player_rect.top - zombie.rect.bottom) < collision_tolerance:
+            if abs(player_rect.top - self.rect.bottom) < collision_tolerance:
                 #player_lose_hp(На сколько уменьшится хп) TODO: Добавить потерю здоровья игрока
-                print('you_lose') # Игрок теряет хп
                 # анимация атаки зомби сверху вниз
                 return True
-            elif abs(player_rect.bottom - zombie.rect.top) < collision_tolerance:
-                print('you_lose')  # Игрок теряет хп
+            elif abs(player_rect.bottom - self.rect.top) < collision_tolerance:
                 # анимация атаки зомби снизу вверх
                 return True
-            elif abs(player_rect.left - zombie.rect.right) < collision_tolerance:
-                print('you_lose')  # Игрок теряет хп
+            elif abs(player_rect.left - self.rect.right) < collision_tolerance:
                 # анимация атаки зомби справа налево
                 return True
-            elif abs(player_rect.right - zombie.rect.left) < collision_tolerance:
-                print('you_lose')  # Игрок теряет хп
+            elif abs(player_rect.right - self.rect.left) < collision_tolerance:
                 # анимация атаки зомби слево направо
                 return True
             else:
-                print('you_lose')  # Игрок теряет хп
                 # анимация атаки зомби слево направо
                 return True
         else:
             return False
 
 
-zombie = Enemy(50, 50)
+zombie = []
+for i in range(100):
+    z = Enemy(random.randint(0, 500), random.randint(0, 500))
+    zombie.append(z)
+
+

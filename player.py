@@ -10,7 +10,7 @@ player1_y = height / 2 - player_size
 player2_x = width / 2 - player_size
 player2_y = height / 2 - player_size
 
-player1_texture = pygame.image.load('images/player1.jpg').convert() # Что что а свой цвет игрок наверное знать должен
+player1_texture = pygame.image.load('images/player1.jpg').convert()
 player2_texture = pygame.image.load('images/player2.jpg').convert()
 
 

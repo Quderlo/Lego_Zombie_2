@@ -24,9 +24,6 @@ pygame.init()
 pygame.display.set_caption("Menu")
 in_game_Background = Background
 
-ghost_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(ghost_timer, 100)
-
 
 def play_solo():
     pygame.display.set_caption("Play")
@@ -37,14 +34,14 @@ def play_solo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        zombie.render_zombie()
-        zombie_hit = zombie.attack_player(player.rect)
+        for i in zombie:
+            i.render_zombie()
+            zombie_hit = i.attack_player(player.rect)
+            if not zombie_hit:
+                i.move(player.rect.x, player.rect.y)
 
         player.movement()
         player.render_player()
-
-        if not zombie_hit:
-            zombie.move(player.rect.x, player.rect.y)
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -54,9 +51,9 @@ def play_solo():
                 sys.exit()
 
 
-def dist():
-    zombie_to_player1_dist = int(sqrt((zombie.rect.x - player.rect.x) ** 2 + (zombie.rect.y - player.rect.y)**2))
-    zombie_to_player2_dist = int(sqrt((zombie.rect.x - player2.rect.x) ** 2 + (zombie.rect.y - player2.rect.y)**2))
+def dist(pos):
+    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y)**2))
+    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y)**2))
     return zombie_to_player1_dist > zombie_to_player2_dist
 
 
@@ -67,20 +64,21 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        zombie.render_zombie()
-        zombie_hit_player1 = zombie.attack_player(player.rect)
-        zombie_hit_player2 = zombie.attack_player(player2.rect)
+        for i in zombie:
+            i.render_zombie()
+            zombie_hit_player1 = i.attack_player(player.rect)
+            zombie_hit_player2 = i.attack_player(player2.rect)
+
+            if (not zombie_hit_player1) and (not zombie_hit_player2):
+                if dist(i):
+                    i.move(player2.rect.x, player2.rect.y)
+                else:
+                    i.move(player.rect.x, player.rect.y)
 
         player.render_player()
         player2.render_player()
         player.movement()
         player2.movement()
-
-        if (not zombie_hit_player1) and (not zombie_hit_player2):
-            if dist():
-                zombie.move(player2.rect.x, player2.rect.y)
-            else:
-                zombie.move(player.rect.x, player.rect.y)
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -88,8 +86,6 @@ def play_duo():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == ghost_timer:
-                dist()
 
 
 def main_menu():
