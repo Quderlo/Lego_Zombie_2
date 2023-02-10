@@ -50,8 +50,10 @@ def play_solo():
 
 
 ghost_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(ghost_timer, 1000)
+pygame.time.set_timer(ghost_timer, 100)
 
+one_x = 0
+one_y = 0
 
 def dist():
     print("Player1 pos", player.rect.x, " ", player.rect.y, "\t\tEnemy pos", zombie.rect.x, " ",
@@ -60,6 +62,11 @@ def dist():
     zombie_to_player2_dist = int(sqrt((zombie.rect.x - player2.rect.x) ** 2 + (zombie.rect.y - player2.rect.y)**2))
     print("p1", zombie_to_player1_dist)
     print("p2", zombie_to_player2_dist)
+
+    if zombie_to_player1_dist > zombie_to_player2_dist:
+        return [player2.rect.x, player2.rect.y]
+    else:
+        return [player.rect.x, player.rect.y]
 
 
 
@@ -70,10 +77,12 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        zombie.move(player2.rect.x, player2.rect.y)
-
         player.movement()
         player2.movement()
+
+        kek = dist() #TODO: Переименновать говно, повты клоуны
+
+        zombie.move(kek[0], kek[1])
 
         pygame.time.delay(15)
         pygame.display.update()
