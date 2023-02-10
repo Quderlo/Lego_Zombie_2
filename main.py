@@ -12,14 +12,14 @@ from math import sqrt
 stop = True
 
 
-def loop():
+"""def loop():
     for i in range(10):
         print(i)
         time.sleep(1)
 
 
 th = Thread(target=loop, args=(), daemon=stop)
-th.start()
+th.start()"""
 
 pygame.init()
 pygame.display.set_caption("Menu")
@@ -50,18 +50,17 @@ def play_solo():
 
 
 ghost_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(ghost_timer, 100)
+pygame.time.set_timer(ghost_timer, 10000)
 
 
 def dist():
     zombie_to_player1_dist = int(sqrt((zombie.rect.x - player.rect.x) ** 2 + (zombie.rect.y - player.rect.y)**2))
     zombie_to_player2_dist = int(sqrt((zombie.rect.x - player2.rect.x) ** 2 + (zombie.rect.y - player2.rect.y)**2))
-
+    print("kek")
     if zombie_to_player1_dist > zombie_to_player2_dist:
         return [player2.rect.x, player2.rect.y]
     else:
         return [player.rect.x, player.rect.y]
-
 
 
 def play_duo():
