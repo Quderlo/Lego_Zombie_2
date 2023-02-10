@@ -26,22 +26,23 @@ class Player(object):
         self.rect.x += diffx
         self.rect.y += diffy
 
-    def movement(self):
+    def render_player(self):
         screen.blit(self.image, self.rect)
-        key = pygame.key.get_pressed()
 
-        if key[pygame.K_LEFT] and not(self.rect.left <= 0):
+    def movement(self, blocked_side):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_LEFT] and (not(self.rect.left <= 0) and not blocked_side == "right"):
             self.move(-player_move_speed, 0)
-        if key[pygame.K_RIGHT] and not(self.rect.right >= width):
+        if key[pygame.K_RIGHT] and (not(self.rect.right >= width) and not blocked_side == "left"):
             self.move(player_move_speed, 0)
-        if key[pygame.K_UP] and not(self.rect.top <= 0):
+        if key[pygame.K_UP] and (not(self.rect.top <= 0) and not blocked_side == "top"):
             self.move(0, -player_move_speed)
-        if key[pygame.K_DOWN] and not(self.rect.bottom >= height):
+        if key[pygame.K_DOWN] and (not(self.rect.bottom >= height) and not blocked_side == "bottom"):
             self.move(0, player_move_speed)
 
 
 class Player2(Player):
-    def movement(self):
+    def movement(self, blocked_side):
         screen.blit(self.image, self.rect)
         key = pygame.key.get_pressed()
 
