@@ -1,6 +1,4 @@
 import sys
-import time
-from threading import Thread
 import pygame
 from game_background import Background, get_font, menu_BG
 from player import screen, player, player2
@@ -10,15 +8,6 @@ from enemy.enemy import zombie
 from math import sqrt
 
 stop = True
-
-
-def loop():
-    for i in range(10):
-        time.sleep(1)
-
-
-th = Thread(target=loop, args=(), daemon=stop)
-th.start()
 
 pygame.init()
 pygame.display.set_caption("Menu")
