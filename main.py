@@ -22,15 +22,14 @@ def play_solo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        print("Player1 pos", player.get_coord(), "\t\tEnemy pos", zombie.get_coord())
+        zombie.render_zombie()
+        zombie_hit = zombie.attack_player(player.rect)
 
-        player.movement()
+        player.movement(zombie_hit[1])
+        player.render_player()
 
-        player1 = player.get_coord()
-        player1_x = player1[0]
-        player1_y = player1[1]
-
-        zombie.move(player1_x, player1_y)
+        if not zombie_hit[0]:
+            zombie.move(player.rect.x, player.rect.y)
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -76,7 +75,7 @@ def main_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                pygame.qut()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.checkForInput(menu_mouse_pos):
