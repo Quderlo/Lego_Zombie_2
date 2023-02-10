@@ -46,8 +46,11 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        player.movement()
-        player2.movement()
+        zombie.render_zombie()
+        zombie_hit = zombie.attack_player(player.rect)
+
+        player.movement(zombie_hit[1])
+        player2.movement(zombie_hit[1])
 
         pygame.display.update()
         for event in pygame.event.get():

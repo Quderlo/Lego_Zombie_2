@@ -42,18 +42,18 @@ class Player(object):
 
 
 class Player2(Player):
-    def movement(self):
+    def movement(self, blocked_side):
         screen.blit(self.image, self.rect)
         key = pygame.key.get_pressed()
 
         if key[pygame.K_a] and not(self.rect.left <= 0):
-            self.move(-1, 0)
+            self.move(-player_move_speed, 0)
         if key[pygame.K_d] and not(self.rect.right >= width):
-            self.move(1, 0)
+            self.move(player_move_speed, 0)
         if key[pygame.K_w] and not(self.rect.top <= 0):
-            self.move(0, -1)
+            self.move(0, -player_move_speed)
         if key[pygame.K_s] and not(self.rect.bottom >= height):
-            self.move(0, 1)
+            self.move(0, player_move_speed)
 
 
 player = Player(player1_texture, player1_x, player1_y)
