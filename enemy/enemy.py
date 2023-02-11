@@ -20,13 +20,13 @@ class Enemy(object):
         screen.blit(self.img, self.rect)
 
     def move(self, kek_x, kek_y):
-        if kek_x > self.rect.x:
+        if (kek_x > self.rect.x):
             self.rect.x += 1
-        if kek_y > self.rect.y:
+        if (kek_y > self.rect.y):
             self.rect.y += 1
-        if kek_x < self.rect.x:
+        if (kek_x < self.rect.x):
             self.rect.x -= 1
-        if kek_y < self.rect.y:
+        if (kek_y < self.rect.y):
             self.rect.y -= 1
 
     def attack_player(self, player_rect):  # TODO: Добавить анимации для зомби
@@ -52,7 +52,7 @@ class Enemy(object):
 
 
 zombie = []
-for i in range(100):
+for i in range(2):
     z = Enemy(random.randint(0, 500), random.randint(0, 500))
     zombie.append(z)
 

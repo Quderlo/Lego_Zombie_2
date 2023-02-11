@@ -6,6 +6,7 @@ from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 from enemy.enemy import zombie
 from math import sqrt
+from collision import zombie_collision
 
 stop = True
 
@@ -25,8 +26,7 @@ def play_solo():
 
         for i in zombie:
             i.render_zombie()
-            zombie_hit = i.attack_player(player.rect)
-            if not zombie_hit:
+            if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y)
 
         player.movement()
@@ -55,10 +55,8 @@ def play_duo():
 
         for i in zombie:
             i.render_zombie()
-            zombie_hit_player1 = i.attack_player(player.rect)
-            zombie_hit_player2 = i.attack_player(player2.rect)
 
-            if (not zombie_hit_player1) and (not zombie_hit_player2):
+            if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
                     i.move(player2.rect.x, player2.rect.y)
                 else:
@@ -96,7 +94,7 @@ def main_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.qut()
+                pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.checkForInput(menu_mouse_pos):
