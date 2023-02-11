@@ -58,9 +58,9 @@ def play_duo():
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    i.move(player2.rect.x, player2.rect.y)
+                    i.move(player2.rect.x, player2.rect.y, zombie_collision(i, zombie))
                 else:
-                    i.move(player.rect.x, player.rect.y)
+                    i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
 
         player.render_player()
         player2.render_player()
