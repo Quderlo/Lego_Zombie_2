@@ -27,7 +27,7 @@ def play_solo():
         for i in zombie:
             i.render_zombie()
             if not i.attack_player(player.rect):
-                i.move(player.rect.x, player.rect.y)
+                i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
 
         player.movement()
         player.render_player()
