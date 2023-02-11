@@ -2,11 +2,10 @@ from constants import collision_tolerance
 import pygame
 from player import screen
 import random
-
-
+from constants import enemy_move_speed
 pygame.init()
 
-img = pygame.image.load("images/enemy.png")
+img = pygame.image.load("assets/images/zombie_img/zombie_right.jpg").convert()
 
 
 class Enemy(object):
@@ -19,15 +18,15 @@ class Enemy(object):
     def render_zombie(self):
         screen.blit(self.img, self.rect)
 
-    def move(self, kek_x, kek_y):
-        if kek_x > self.rect.x:
-            self.rect.x += 1
-        if kek_y > self.rect.y:
-            self.rect.y += 1
-        if kek_x < self.rect.x:
-            self.rect.x -= 1
-        if kek_y < self.rect.y:
-            self.rect.y -= 1
+    def move(self, kek_x, kek_y, blocked_side):
+        if (kek_x > self.rect.x) and (not blocked_side['right']):
+            self.rect.x += enemy_move_speed
+        if (kek_y > self.rect.y) and (not blocked_side['bottom']):
+            self.rect.y += enemy_move_speed
+        if (kek_x < self.rect.x) and (not blocked_side['left']):
+            self.rect.x -= enemy_move_speed
+        if (kek_y < self.rect.y) and (not blocked_side['top']):
+            self.rect.y -= enemy_move_speed
 
     def attack_player(self, player_rect):  # TODO: Добавить анимации для зомби
         if pygame.Rect.colliderect(player_rect, self.rect):
@@ -52,8 +51,8 @@ class Enemy(object):
 
 
 zombie = []
-for i in range(100):
-    z = Enemy(random.randint(0, 500), random.randint(0, 500))
+for i in range(20):
+    z = Enemy(random.randint(0, 1000), random.randint(0, 1000))
     zombie.append(z)
 
 

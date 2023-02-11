@@ -1,6 +1,4 @@
 import sys
-import time
-from threading import Thread
 import pygame
 from game_background import Background, get_font, menu_BG
 from player import screen, player, player2
@@ -8,17 +6,9 @@ from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 from enemy.enemy import zombie
 from math import sqrt
+from collision import zombie_collision
 
 stop = True
-
-
-def loop():
-    for i in range(10):
-        time.sleep(1)
-
-
-th = Thread(target=loop, args=(), daemon=stop)
-th.start()
 
 pygame.init()
 pygame.display.set_caption("Menu")
@@ -36,9 +26,8 @@ def play_solo():
 
         for i in zombie:
             i.render_zombie()
-            zombie_hit = i.attack_player(player.rect)
-            if not zombie_hit:
-                i.move(player.rect.x, player.rect.y)
+            if not i.attack_player(player.rect):
+                i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
 
         player.movement()
         player.render_player()
@@ -66,14 +55,12 @@ def play_duo():
 
         for i in zombie:
             i.render_zombie()
-            zombie_hit_player1 = i.attack_player(player.rect)
-            zombie_hit_player2 = i.attack_player(player2.rect)
 
-            if (not zombie_hit_player1) and (not zombie_hit_player2):
+            if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    i.move(player2.rect.x, player2.rect.y)
+                    i.move(player2.rect.x, player2.rect.y, zombie_collision(i, zombie))
                 else:
-                    i.move(player.rect.x, player.rect.y)
+                    i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
 
         player.render_player()
         player2.render_player()
@@ -107,7 +94,7 @@ def main_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.qut()
+                pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.checkForInput(menu_mouse_pos):
