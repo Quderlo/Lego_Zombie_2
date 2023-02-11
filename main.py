@@ -8,6 +8,7 @@ from enemy.enemy import zombie
 from math import sqrt
 from collision import col
 
+
 stop = True
 
 pygame.init()
@@ -28,6 +29,7 @@ def play_solo():
             i.render_zombie()
             if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y, col(i, zombie))
+
 
         player.movement()
         player.render_player()
@@ -61,6 +63,7 @@ def play_duo():
                     i.move(player2.rect.x, player2.rect.y, col(i, zombie))
                 else:
                     i.move(player.rect.x, player.rect.y, col(i, zombie))
+
 
         player.render_player()
         player2.render_player()

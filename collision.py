@@ -20,10 +20,6 @@ def col(subject, arr_subject):
             else:
                 blocked_side['left'] = False
             if abs(subject.rect.right - i.rect.left) <= collision_tolerance or blocked_side['right']:
-                blocked_side['right'] = True
-            else:
-                blocked_side['right'] = False
-    return blocked_side
 
 
 

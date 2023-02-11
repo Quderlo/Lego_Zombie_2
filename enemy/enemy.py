@@ -51,7 +51,8 @@ class Enemy(object):
 
 
 zombie = []
-for i in range(2):
+
+for i in range(20):
     z = Enemy(random.randint(0, 1000), random.randint(0, 1000))
     zombie.append(z)
 
