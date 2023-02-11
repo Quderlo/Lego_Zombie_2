@@ -22,6 +22,14 @@ class Player(object):
         self.rect.x = px
         self.rect.y = py
 
+    """
+    def move(self, diffx, diffy, blocked_side):
+        if (not blocked_side['right'] and diffx > 0) or (not blocked_side['left'] and diffx < 0):
+            self.rect.x += diffx
+        if (not blocked_side['bottom'] and diffy > 0) or (not blocked_side['top'] and diffy < 0):
+            self.rect.y += diffy
+    """
+
     def move(self, diffx, diffy):
         self.rect.x += diffx
         self.rect.y += diffy

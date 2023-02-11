@@ -6,7 +6,7 @@ from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 from enemy.enemy import zombie
 from math import sqrt
-from collision import zombie_collision
+from collision import col
 
 stop = True
 
@@ -27,7 +27,7 @@ def play_solo():
         for i in zombie:
             i.render_zombie()
             if not i.attack_player(player.rect):
-                i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
+                i.move(player.rect.x, player.rect.y, col(i, zombie))
 
         player.movement()
         player.render_player()
@@ -58,9 +58,9 @@ def play_duo():
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    i.move(player2.rect.x, player2.rect.y, zombie_collision(i, zombie))
+                    i.move(player2.rect.x, player2.rect.y, col(i, zombie))
                 else:
-                    i.move(player.rect.x, player.rect.y, zombie_collision(i, zombie))
+                    i.move(player.rect.x, player.rect.y, col(i, zombie))
 
         player.render_player()
         player2.render_player()
