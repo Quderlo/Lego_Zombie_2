@@ -8,7 +8,7 @@ Background = []
 menu_BG = pygame.image.load('images/main_menu.jpg').convert() # Это в game_bg.py
 
 
-class Bg(object):  # Описание заднего фона
+class Floor(object):  # Описание заднего фона
     def __init__(self, x, y):
         self.texture = pygame.image.load('images/wall.jpg').convert()
         self.texture = pygame.transform.scale(self.texture, (bg_size_x, bg_size_y))
@@ -51,9 +51,11 @@ for i in range(int(height / bg_size_x)):  # Заполнение карты (с�
     for j in range(int(width / bg_size_y)):
         if ((j == 0) or (j == int(height / bg_size_y) - 1)) and \
                 (i != int(width / bg_size_x) / 2) and (i != int(width / bg_size_x) / 2 - 1):
-            Background[i].append(Fence(i * bg_size_x, j * bg_size_y))
+            fence = Fence(i * bg_size_x, j * bg_size_y)
+            Background[i].append(fence)
         else:
-            Background[i].append(Bg(i * bg_size_x, j * bg_size_y))
+            floor = Floor(i * bg_size_x, j * bg_size_y)
+            Background[i].append(floor)
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
