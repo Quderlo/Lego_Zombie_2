@@ -46,17 +46,13 @@ class Fence(object):
         return self.pass_on
 
 
-for i in range(int(height / bg_size_x)):  # Заполнение карты (создание двойного массива с блоками)
+for i in range(int(height / bg_size_x) + 1):  # Заполнение карты (создание двойного массива с блоками)
     Background.append([])
-    for j in range(int(width / bg_size_y)):
-        if ((j == 0) or (j == int(height / bg_size_y) - 1)) and \
-                (i != int(width / bg_size_x) / 2) and (i != int(width / bg_size_x) / 2 - 1):
-            fence = Fence(i * bg_size_x, j * bg_size_y)
-            Background[i].append(fence)
-        else:
+    for j in range(int(width / bg_size_y) + 1):
             floor = Floor(i * bg_size_x, j * bg_size_y)
             Background[i].append(floor)
 
+Background[5][5] = Fence(5 * bg_size_x, 5 * bg_size_y)
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)

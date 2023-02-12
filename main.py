@@ -23,18 +23,19 @@ def play_solo():
     mixer.music.set_volume(0.2)
     mixer.music.play(-1)"""
     main_menu_music.stop()
+
     while True:
-        for i in range(int(height / bg_size_y)):
-            for j in range(int(width / bg_size_x)):
+        for i in range(int(height / bg_size_y) + 1):
+            for j in range(int(width / bg_size_x) + 1):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
         for i in zombie:
             i.render_zombie()
             if not i.attack_player(player.rect):
-                i.move(player.rect.x, player.rect.y, col(i, zombie))
+                i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
 
-        player.movement(col(player, zombie))
+        player.movement(col(player, zombie + [Background[5][5]]))
         player.render_player()
 
         pygame.time.delay(15)
@@ -53,8 +54,8 @@ def dist(pos):
 
 def play_duo():
     while True:
-        for i in range(int(height / bg_size_y)):
-            for j in range(int(width / bg_size_x)):
+        for i in range(int(height / bg_size_y) + 1):
+            for j in range(int(width / bg_size_x) + 1):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
@@ -63,15 +64,15 @@ def play_duo():
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    i.move(player2.rect.x, player2.rect.y, col(i, zombie))
+                    i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
                 else:
-                    i.move(player.rect.x, player.rect.y, col(i, zombie))
+                    i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
 
         player.render_player()
         player2.render_player()
 
-        player.movement(col(player, [player, player2] + zombie))
-        player2.movement(col(player2, [player, player2] + zombie))
+        player.movement(col(player, [player, player2] + zombie + [Background[5][5]]))
+        player2.movement(col(player2, [player, player2] + zombie + [Background[5][5]]))
 
         pygame.time.delay(15)
         pygame.display.update()
