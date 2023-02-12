@@ -9,7 +9,6 @@ from math import sqrt
 from collision import col
 from pygame import mixer
 
-
 stop = True
 
 pygame.init()
@@ -35,7 +34,7 @@ def play_solo():
             if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y, col(i, zombie))
 
-        player.movement()
+        player.movement(col(player, zombie))
         player.render_player()
 
         pygame.time.delay(15)
@@ -47,8 +46,8 @@ def play_solo():
 
 
 def dist(pos):
-    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y)**2))
-    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y)**2))
+    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y) ** 2))
+    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y) ** 2))
     return zombie_to_player1_dist > zombie_to_player2_dist
 
 
@@ -70,8 +69,9 @@ def play_duo():
 
         player.render_player()
         player2.render_player()
-        player.movement()
-        player2.movement()
+
+        player.movement(col(player, [player, player2] + zombie))
+        player2.movement(col(player2, [player, player2] + zombie))
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -90,7 +90,6 @@ button_hover.set_volume(0.2)
 main_menu_music = pygame.mixer.Sound("assets/sounds/main_menu/main_menu_music.mp3")
 main_menu_music.set_volume(0.08)
 
-
 button_hover_state_solo = False
 button_hover_state_duo = False
 button_hover_state_exit = False
@@ -103,9 +102,12 @@ def main_menu():
         screen.blit(menu_BG, (0, 0))
 
         menu_mouse_pos = pygame.mouse.get_pos()
-        current_hover_play_solo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 339 <= pygame.mouse.get_pos()[1] <= 418
-        current_hover_play_duo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 462 <= pygame.mouse.get_pos()[1] <= 539
-        current_hover_play_exit = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 582 <= pygame.mouse.get_pos()[1] <= 659
+        current_hover_play_solo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284 / 2 and 339 <= pygame.mouse.get_pos()[
+            1] <= 418
+        current_hover_play_duo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284 / 2 and 462 <= pygame.mouse.get_pos()[
+            1] <= 539
+        current_hover_play_exit = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284 / 2 and 582 <= pygame.mouse.get_pos()[
+            1] <= 659
 
         # Hover sound for play_solo
         if current_hover_play_solo and not button_hover_state_solo:
@@ -126,10 +128,7 @@ def main_menu():
         elif not current_hover_play_exit and button_hover_state_exit:
             button_hover_state_exit = False
 
-        #if 354 <= pygame.mouse.get_pos()[0] <= 784 and 462 <= pygame.mouse.get_pos()[1] <= 579:
-        #    print("True")
-        #    button_hover.play()
-        print(menu_mouse_pos)
+        # print(menu_mouse_pos)
 
         play_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 380),
                              text_input="Play solo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
