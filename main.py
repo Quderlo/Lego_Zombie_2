@@ -7,18 +7,23 @@ from button import Button
 from enemy.enemy import zombie
 from math import sqrt
 from collision import col
+from pygame import mixer
 
 
 stop = True
 
 pygame.init()
-pygame.display.set_caption("Menu")
+pygame.display.set_caption("POVT.EXE")
 in_game_Background = Background
 
 
 def play_solo():
-    pygame.display.set_caption("Play")
-
+    # Background music
+    """pygame.display.set_caption("Play")
+    mixer.music.load('assets/sounds/ambient/dungeon002.ogg')
+    mixer.music.set_volume(0.2)
+    mixer.music.play(-1)"""
+    main_menu_music.stop()
     while True:
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
@@ -29,7 +34,6 @@ def play_solo():
             i.render_zombie()
             if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y, col(i, zombie))
-
 
         player.movement()
         player.render_player()
@@ -64,7 +68,6 @@ def play_duo():
                 else:
                     i.move(player.rect.x, player.rect.y, col(i, zombie))
 
-
         player.render_player()
         player2.render_player()
         player.movement()
@@ -77,17 +80,56 @@ def play_duo():
                 pygame.quit()
                 sys.exit()
 
-button_click = pygame.mixer.Sound("assets/sounds/main_menu/button_click.mp3")
-#button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
 
+button_click = pygame.mixer.Sound("assets/sounds/main_menu/button_click.mp3")
+button_click.set_volume(0.3)
+
+button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
+button_hover.set_volume(0.2)
+
+main_menu_music = pygame.mixer.Sound("assets/sounds/main_menu/main_menu_music.mp3")
+main_menu_music.set_volume(0.08)
+
+
+button_hover_state_solo = False
+button_hover_state_duo = False
+button_hover_state_exit = False
 
 
 def main_menu():
-
+    main_menu_music.play()
+    global button_hover_state_solo, button_hover_state_duo, button_hover_state_exit
     while True:
         screen.blit(menu_BG, (0, 0))
 
         menu_mouse_pos = pygame.mouse.get_pos()
+        current_hover_play_solo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 339 <= pygame.mouse.get_pos()[1] <= 418
+        current_hover_play_duo = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 462 <= pygame.mouse.get_pos()[1] <= 539
+        current_hover_play_exit = 354 <= pygame.mouse.get_pos()[0] <= 500 + 284/2 and 582 <= pygame.mouse.get_pos()[1] <= 659
+
+        # Hover sound for play_solo
+        if current_hover_play_solo and not button_hover_state_solo:
+            button_hover.play(0)
+            button_hover_state_solo = True
+        elif not current_hover_play_solo and button_hover_state_solo:
+            button_hover_state_solo = False
+        # Hover sound for play_duo
+        if current_hover_play_duo and not button_hover_state_duo:
+            button_hover.play(0)
+            button_hover_state_duo = True
+        elif not current_hover_play_duo and button_hover_state_duo:
+            button_hover_state_duo = False
+        # Hover sound for exit
+        if current_hover_play_exit and not button_hover_state_exit:
+            button_hover.play(0)
+            button_hover_state_exit = True
+        elif not current_hover_play_exit and button_hover_state_exit:
+            button_hover_state_exit = False
+
+        #if 354 <= pygame.mouse.get_pos()[0] <= 784 and 462 <= pygame.mouse.get_pos()[1] <= 579:
+        #    print("True")
+        #    button_hover.play()
+        print(menu_mouse_pos)
 
         play_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 380),
                              text_input="Play solo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
@@ -114,7 +156,6 @@ def main_menu():
                 if exit_button.checkForInput(menu_mouse_pos):
                     pygame.quit()
                     sys.exit()
-
 
         pygame.display.update()
 

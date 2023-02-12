@@ -1,4 +1,9 @@
-import pygame.time
+import time
+
+import pygame
+button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
+
+
 
 
 class Button(object):
@@ -30,3 +35,4 @@ class Button(object):
 			self.text = self.font.render(self.text_input, True, self.hovering_color)
 		else:
 			self.text = self.font.render(self.text_input, True, self.base_color)
+

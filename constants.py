@@ -1,3 +1,4 @@
+import pygame
 width = 1000
 height = 1000
 player_size = 60
