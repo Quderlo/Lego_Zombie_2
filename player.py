@@ -83,8 +83,6 @@ class Player(object):
             self.image = player1_texture_down_left
 
 
-
-
 class Player2(Player):
     def movement(self):
         key = pygame.key.get_pressed()

@@ -84,12 +84,12 @@ def main_menu():
 
         menu_mouse_pos = pygame.mouse.get_pos()
 
-        play_button = Button(image=pygame.image.load("images/button.png"), pos=(150, 100),
-                             text_input="Play solo", font=get_font(32), base_color="#77DDE7", hovering_color="White")
-        duo_button = Button(image=pygame.image.load("images/button.png"), pos=(150, 200),
-                            text_input="Play duo", font=get_font(32), base_color="#77DDE7", hovering_color="White")
-        exit_button = Button(image=pygame.image.load("images/button.png"), pos=(150, 300),
-                             text_input="Exit", font=get_font(32), base_color="#77DDE7", hovering_color="White")
+        play_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 380),
+                             text_input="Play solo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
+        duo_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 500),
+                            text_input="Play duo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
+        exit_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 620),
+                             text_input="Exit", font=get_font(32), base_color="White", hovering_color="#43f1f8")
 
         for button in [play_button, duo_button, exit_button]:
             button.changeColor(menu_mouse_pos)

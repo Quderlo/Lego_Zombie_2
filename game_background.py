@@ -5,7 +5,7 @@ from player import screen
 pygame.init()
 
 Background = []
-menu_BG = pygame.image.load('images/main_menu.jpg').convert() # Это в game_bg.py
+menu_BG = pygame.image.load('assets/images/main_menu/menu_background.jpg').convert()
 
 
 class Floor(object):  # Описание заднего фона
