@@ -13,17 +13,24 @@ stop = True
 
 pygame.init()
 pygame.display.set_caption("POVT.EXE")
+game_icon = programIcon = pygame.image.load('assets/images/game_icon.png')
+pygame.display.set_icon(game_icon)
 in_game_Background = Background
 
 
 def play_solo():
     # Background music
-    """pygame.display.set_caption("Play")
-    mixer.music.load('assets/sounds/ambient/dungeon002.ogg')
-    mixer.music.set_volume(0.2)
-    mixer.music.play(-1)"""
+    start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
+    start_round.set_volume(0.1)
+    start_round.play()
+    pygame.display.set_caption("Play")
+    mixer.music.load('assets/sounds/ambient/ambience.mp3')
+    mixer.music.set_volume(0.1)
+    mixer.music.play(-1)
     main_menu_music.stop()
+
     while True:
+        esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
@@ -44,6 +51,9 @@ def play_solo():
                 pygame.quit()
                 sys.exit()
 
+        if esc_key[pygame.K_ESCAPE]:
+            sys.exit()
+
 
 def dist(pos):
     zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y) ** 2))
@@ -52,7 +62,17 @@ def dist(pos):
 
 
 def play_duo():
+    # Background music
+    start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
+    start_round.set_volume(0.1)
+    start_round.play()
+    pygame.display.set_caption("Play")
+    mixer.music.load('assets/sounds/ambient/ambience.mp3')
+    mixer.music.set_volume(0.1)
+    mixer.music.play(-1)
+    main_menu_music.stop()
     while True:
+        esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
@@ -78,6 +98,8 @@ def play_duo():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
+            if esc_key[pygame.K_ESCAPE]:
                 sys.exit()
 
 
