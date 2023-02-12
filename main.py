@@ -19,17 +19,52 @@ in_game_Background = Background
 
 clock = pygame.time.Clock()
 
+button_hover_state_yes = False
+button_hover_state_no = False
+
+button_click = pygame.mixer.Sound("assets/sounds/main_menu/button_click.mp3")
+button_click.set_volume(0.3)
+
+button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
+button_hover.set_volume(0.2)
+
+main_menu_music = pygame.mixer.Sound("assets/sounds/main_menu/main_menu_music.mp3")
+main_menu_music.set_volume(0.08)
+
+button_hover_state_solo = False
+button_hover_state_duo = False
+button_hover_state_exit = False
+
 
 def pause():
     paused = True
-
+    main_menu_music.play()
+    global button_hover_state_yes, button_hover_state_no
     while paused:
         menu_mouse_pos = pygame.mouse.get_pos()
 
-        yes_button = Button(image=pygame.image.load("assets/images/main_menu/button_yes.png"), pos=(200, 500 + 130),
+        yes_button = Button(image=pygame.image.load("assets/images/main_menu/button_yes.png"), pos=(250, 560),
                             text_input="Yes", font=get_font(32), base_color="White", hovering_color="#43f1f8")
-        no_button = Button(image=pygame.image.load("assets/images/main_menu/button_no.png"), pos=(790, 500 + 130),
+        no_button = Button(image=pygame.image.load("assets/images/main_menu/button_no.png"), pos=(736, 560),
                            text_input="No", font=get_font(32), base_color="White", hovering_color="#679B00")
+
+        current_hover_play_yes = 190 <= pygame.mouse.get_pos()[0] <= 316 and 518 <= pygame.mouse.get_pos()[
+            1] <= 601
+        current_hover_play_no = 680 <= pygame.mouse.get_pos()[0] <= 805 and 518 <= pygame.mouse.get_pos()[
+            1] <= 601
+
+        # Hover sound for play_yes
+        if current_hover_play_yes and not button_hover_state_yes:
+            button_hover.play(0)
+            button_hover_state_yes = True
+        elif not current_hover_play_yes and button_hover_state_yes:
+            button_hover_state_yes = False
+        # Hover sound for play_duo
+        if current_hover_play_no and not button_hover_state_no:
+            button_hover.play(0)
+            button_hover_state_no = True
+        elif not current_hover_play_no and button_hover_state_no:
+            button_hover_state_no = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -46,17 +81,19 @@ def pause():
                     quit()
                 if no_button.checkForInput(menu_mouse_pos):
                     button_click.play()
+                    mixer.music.unpause()
+                    main_menu_music.stop()
                     paused = False
 
         screen.blit(esc_menu, (0, 0))
 
-        print(menu_mouse_pos)
+        #print(menu_mouse_pos)
         for button in [yes_button, no_button]:
             button.changeColor(menu_mouse_pos)
             button.update(screen)
 
         pygame.display.update()
-        clock.tick(30)
+        clock.tick(50)
 
 
 def play_solo():
@@ -94,7 +131,7 @@ def play_solo():
                 sys.exit()
             if esc_key[pygame.K_ESCAPE]:
                 start_round.stop()
-                mixer.music.stop()
+                mixer.music.pause()
 
                 pause()
 
@@ -147,21 +184,12 @@ def play_duo():
                 pygame.quit()
                 sys.exit()
             if esc_key[pygame.K_ESCAPE]:
-                sys.exit()
+                start_round.stop()
+                mixer.music.pause()
+
+                pause()
 
 
-button_click = pygame.mixer.Sound("assets/sounds/main_menu/button_click.mp3")
-button_click.set_volume(0.3)
-
-button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
-button_hover.set_volume(0.2)
-
-main_menu_music = pygame.mixer.Sound("assets/sounds/main_menu/main_menu_music.mp3")
-main_menu_music.set_volume(0.08)
-
-button_hover_state_solo = False
-button_hover_state_duo = False
-button_hover_state_exit = False
 
 
 def main_menu():
@@ -197,7 +225,7 @@ def main_menu():
         elif not current_hover_play_exit and button_hover_state_exit:
             button_hover_state_exit = False
 
-        # print(menu_mouse_pos)
+        #print(menu_mouse_pos)
 
         play_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 380),
                              text_input="Play solo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
