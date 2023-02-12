@@ -75,6 +75,7 @@ class Player(object):
         if key[pygame.K_DOWN] and key[pygame.K_LEFT] and not (self.rect.bottom >= height):
             self.image = player1_texture_down_left
 
+
 class Player2(Player):
     def movement(self, blocked_side):
         key = pygame.key.get_pressed()
