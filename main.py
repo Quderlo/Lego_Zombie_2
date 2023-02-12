@@ -77,8 +77,13 @@ def play_duo():
                 pygame.quit()
                 sys.exit()
 
+button_click = pygame.mixer.Sound("assets/sounds/main_menu/button_click.mp3")
+#button_hover = pygame.mixer.Sound("assets/sounds/main_menu/button_hover.mp3")
+
+
 
 def main_menu():
+
     while True:
         screen.blit(menu_BG, (0, 0))
 
@@ -101,12 +106,15 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.checkForInput(menu_mouse_pos):
+                    button_click.play()
                     play_solo()
                 if duo_button.checkForInput(menu_mouse_pos):
+                    button_click.play()
                     play_duo()
                 if exit_button.checkForInput(menu_mouse_pos):
                     pygame.quit()
                     sys.exit()
+
 
         pygame.display.update()
 
