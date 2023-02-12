@@ -1,6 +1,6 @@
 import sys
 import pygame
-from game_background import Background, get_font, menu_BG
+from game_background import Background, get_font, menu_BG, esc_menu
 from player import screen, player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
@@ -17,6 +17,47 @@ game_icon = programIcon = pygame.image.load('assets/images/game_icon.png')
 pygame.display.set_icon(game_icon)
 in_game_Background = Background
 
+clock = pygame.time.Clock()
+
+
+def pause():
+    paused = True
+
+    while paused:
+        menu_mouse_pos = pygame.mouse.get_pos()
+
+        yes_button = Button(image=pygame.image.load("assets/images/main_menu/button_yes.png"), pos=(200, 500 + 130),
+                            text_input="Yes", font=get_font(32), base_color="White", hovering_color="#43f1f8")
+        no_button = Button(image=pygame.image.load("assets/images/main_menu/button_no.png"), pos=(790, 500 + 130),
+                           text_input="No", font=get_font(32), base_color="White", hovering_color="#679B00")
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if yes_button.checkForInput(menu_mouse_pos):
+                    button_click.play()
+                    pygame.quit()
+                    quit()
+                if no_button.checkForInput(menu_mouse_pos):
+                    button_click.play()
+                    paused = False
+
+        screen.blit(esc_menu, (0, 0))
+
+        print(menu_mouse_pos)
+        for button in [yes_button, no_button]:
+            button.changeColor(menu_mouse_pos)
+            button.update(screen)
+
+        pygame.display.update()
+        clock.tick(30)
+
 
 def play_solo():
     # Background music
@@ -30,6 +71,7 @@ def play_solo():
     main_menu_music.stop()
 
     while True:
+
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
@@ -50,9 +92,14 @@ def play_solo():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if esc_key[pygame.K_ESCAPE]:
+                start_round.stop()
+                mixer.music.stop()
 
-        if esc_key[pygame.K_ESCAPE]:
-            sys.exit()
+                pause()
+
+        # if esc_key[pygame.K_ESCAPE]:
+        # sys.exit()
 
 
 def dist(pos):

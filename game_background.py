@@ -5,6 +5,7 @@ from player import screen
 pygame.init()
 
 Background = []
+esc_menu = pygame.image.load("assets/images/main_menu/escape_menu.jpg")
 menu_BG = pygame.image.load('assets/images/main_menu/menu_background.jpg').convert()
 
 
