@@ -8,7 +8,6 @@ from enemy.enemy import zombie
 from math import sqrt
 from collision import col
 
-
 stop = True
 
 pygame.init()
@@ -30,8 +29,7 @@ def play_solo():
             if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y, col(i, zombie))
 
-
-        player.movement()
+        player.movement(col(player, zombie))
         player.render_player()
 
         pygame.time.delay(15)
@@ -43,8 +41,8 @@ def play_solo():
 
 
 def dist(pos):
-    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y)**2))
-    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y)**2))
+    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y) ** 2))
+    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y) ** 2))
     return zombie_to_player1_dist > zombie_to_player2_dist
 
 
@@ -64,11 +62,11 @@ def play_duo():
                 else:
                     i.move(player.rect.x, player.rect.y, col(i, zombie))
 
-
         player.render_player()
         player2.render_player()
-        player.movement()
-        player2.movement()
+
+        player.movement(col(player, [player, player2] + zombie))
+        player2.movement(col(player2, [player, player2] + zombie))
 
         pygame.time.delay(15)
         pygame.display.update()
