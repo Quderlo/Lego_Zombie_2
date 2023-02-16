@@ -4,10 +4,12 @@ from game_background import Background, get_font, menu_BG, esc_menu
 from player import screen, player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
-from enemy.enemy import zombie
+# from enemy.enemy import zombie
 from math import sqrt
-from collision import col
+#from collision import col
 from pygame import mixer
+from enemy.zombie import zombie_group, zombie, zombie1, matrix
+from threading import Thread
 
 stop = True
 
@@ -87,7 +89,7 @@ def pause():
 
         screen.blit(esc_menu, (0, 0))
 
-        #print(menu_mouse_pos)
+        # print(menu_mouse_pos)
         for button in [yes_button, no_button]:
             button.changeColor(menu_mouse_pos)
             button.update(screen)
@@ -108,19 +110,32 @@ def play_solo():
     main_menu_music.stop()
 
     while True:
+        id(matrix)
+        matrix[10][10] = 0
+        matrix[10][11] = 0
+        matrix[11][10] = 0
+        matrix[11][11] = 0
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        for i in zombie:
+        """for i in zombie:
             i.render_zombie()
             if not i.attack_player(player.rect):
-                i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
+                i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))"""
 
-        player.movement(col(player, zombie + [Background[5][5]]))
+        #player.movement(col(player, zombie + [Background[5][5]]))
+        #player.movement(col(player, player))
         player.render_player()
+
+        zombie.update()
+        zombie.movement(matrix)
+        zombie1.update()
+        zombie1.movement(matrix)
+        zombie_group.draw(screen)
+
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -131,8 +146,11 @@ def play_solo():
             if esc_key[pygame.K_ESCAPE]:
                 start_round.stop()
                 mixer.music.pause()
-
                 pause()
+            if event.type == pygame.USEREVENT:
+                zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True)
+                zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True)
+
 
         # if esc_key[pygame.K_ESCAPE]:
         # sys.exit()
@@ -166,15 +184,17 @@ def play_duo():
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
+                    pass
+                   # i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
                 else:
-                    i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
+                    pass
+                    #i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
 
         player.render_player()
         player2.render_player()
 
-        player.movement(col(player, [player, player2] + zombie + [Background[5][5]]))
-        player2.movement(col(player2, [player, player2] + zombie + [Background[5][5]]))
+        # player.movement(col(player, [player, player2] + zombie + [Background[5][5]]))
+        # player2.movement(col(player2, [player, player2] + zombie + [Background[5][5]]))
 
         pygame.time.delay(15)
         pygame.display.update()
@@ -187,8 +207,6 @@ def play_duo():
                 mixer.music.pause()
 
                 pause()
-
-
 
 
 def main_menu():
@@ -224,7 +242,7 @@ def main_menu():
         elif not current_hover_play_exit and button_hover_state_exit:
             button_hover_state_exit = False
 
-        #print(menu_mouse_pos)
+        # print(menu_mouse_pos)
 
         play_button = Button(image=pygame.image.load("assets/images/main_menu/button.png"), pos=(500, 380),
                              text_input="Play solo", font=get_font(32), base_color="White", hovering_color="#43f1f8")
@@ -256,3 +274,5 @@ def main_menu():
 
 
 main_menu()
+# t = Thread(target=main_menu, args=())
+# t.start()

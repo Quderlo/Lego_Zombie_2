@@ -4,7 +4,7 @@ from constants import collision_tolerance, player_size
 from math import sqrt
 
 
-def col(subject, arr_subject):
+"""def col(subject, arr_subject):
     blocked_side = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
     for i in arr_subject:
@@ -52,4 +52,4 @@ def col(subject, arr_subject):
                     else:
                         blocked_side['right'] = False
 
-    return blocked_side
+    return blocked_side"""

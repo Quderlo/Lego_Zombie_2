@@ -50,10 +50,10 @@ class Enemy(object):
             return False
 
 
-zombie = []
+"""zombie = []
 
 for i in range(20):
     z = Enemy(random.randint(0, 1000), random.randint(0, 1000))
-    zombie.append(z)
+    zombie.append(z)"""
 
 
