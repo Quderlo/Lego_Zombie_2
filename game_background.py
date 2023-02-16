@@ -31,7 +31,7 @@ class Floor(object):  # Описание заднего фона
 class Fence(object):
     def __init__(self, x, y):
         self.texture = pygame.image.load('images/fence.jpg').convert()  # TODO: Сделать картинку забора
-        self.texture = pygame.transform.scale(self.texture, (bg_size_x, bg_size_y))
+        self.texture = pygame.transform.scale(self.texture, (bg_size_x // 2, bg_size_y // 2))
         self.rect = self.texture.get_rect()
         self.rect.x = x
         self.rect.y = y

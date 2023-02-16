@@ -114,10 +114,18 @@ def play_solo():
         keko = clock.get_fps()
         pygame.display.set_caption("FPS: " + str(keko))
         id(matrix)
-        #matrix[10][10] = 0
-        #matrix[10][11] = 0
-        #matrix[11][10] = 0
-        #matrix[11][11] = 0
+
+        #matrix[5][5] = 0
+        matrix[10][10] = 0
+
+        """matrix[20][20] = 0
+        matrix[20][21] = 0
+        matrix[21][20] = 0
+        matrix[21][21] = 0
+        matrix[21][22] = 0
+        matrix[22][22] = 0
+        matrix[22][23] = 0
+        matrix[24][24] = 0"""
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
@@ -129,17 +137,18 @@ def play_solo():
             if not i.attack_player(player.rect):
                 i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))"""
 
-        #player.movement(col(player, zombie + [Background[5][5]]))
+        player.movement(col(player, (zombie1, zombie, Background[5][5])))
         #player.movement(col(player, player))
         player.render_player()
 
         zombie.update()
-        zombie.movement(matrix, col(zombie, (zombie1,zombie, player)))
+        zombie.movement(matrix, col(zombie, (zombie1, zombie, player, Background[5][5])))
         zombie1.update()
-        zombie1.movement(matrix, col(zombie1, (zombie1,zombie, player)))
+        zombie1.movement(matrix, col(zombie1, (zombie1, zombie, player, Background[5][5])))
         zombie_group.draw(screen)
 
-
+        mouse = pygame.mouse.get_pos()
+        print(mouse)
         #pygame.time.delay(15)
         pygame.display.update()
         for event in pygame.event.get():
@@ -151,9 +160,8 @@ def play_solo():
                 mixer.music.pause()
                 pause()
             if event.type == pygame.USEREVENT:
-                zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True)
-                zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True)
-
+                zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True, player.rect)
+                zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
         clock.tick(60)
         # if esc_key[pygame.K_ESCAPE]:
         # sys.exit()

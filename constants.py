@@ -10,4 +10,4 @@ bg_size_y = 100
 player_move_speed = 3
 enemy_move_speed = 2
 
-collision_tolerance = 1
+collision_tolerance = 2
