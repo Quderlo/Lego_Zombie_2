@@ -1,13 +1,14 @@
 import sys
 import pygame
 from game_background import Background, get_font, menu_BG, esc_menu
-from player import screen, player, player2
+from player import player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 from enemy.enemy import zombie
 from math import sqrt
 from collision import col
 from pygame import mixer
+from screen import screen
 
 stop = True
 
@@ -106,6 +107,7 @@ def play_solo():
     mixer.music.set_volume(0.1)
     mixer.music.play(-1)
     main_menu_music.stop()
+    bullets_list = []
 
     while True:
         esc_key = pygame.key.get_pressed()
@@ -121,6 +123,7 @@ def play_solo():
 
         player.movement(col(player, zombie + [Background[5][5]]))
         player.render_player()
+        bullets_list = player.shoot(bullets_list)
 
         pygame.time.delay(15)
         pygame.display.update()
