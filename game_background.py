@@ -1,8 +1,6 @@
 import pygame
 from constants import bg_size_x, bg_size_y, height, width
-from player import screen
-
-pygame.init()
+from screen import screen
 
 Background = []
 esc_menu = pygame.image.load("assets/images/main_menu/escape_menu.jpg")

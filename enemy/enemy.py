@@ -1,6 +1,6 @@
 from constants import collision_tolerance
 import pygame
-from player import screen
+from screen import screen
 import random
 from constants import enemy_move_speed
 pygame.init()
@@ -52,7 +52,7 @@ class Enemy(object):
 
 """zombie = []
 
-for i in range(20):
+for i in range(0):
     z = Enemy(random.randint(0, 1000), random.randint(0, 1000))
     zombie.append(z)"""
 

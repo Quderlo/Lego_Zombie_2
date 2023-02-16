@@ -1,7 +1,6 @@
 import pygame
 
-from constants import collision_tolerance, player_size
-from math import sqrt
+from constants import collision_tolerance
 
 
 def col(subject, arr_subject):
