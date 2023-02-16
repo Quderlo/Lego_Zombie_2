@@ -117,6 +117,9 @@ def play_solo():
 
         #matrix[5][5] = 0
         matrix[10][10] = 0
+        matrix[11][10] = 0
+        matrix[11][11] = 0
+        matrix[10][12] = 0
 
         """matrix[20][20] = 0
         matrix[20][21] = 0

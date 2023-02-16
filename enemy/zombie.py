@@ -262,7 +262,7 @@ class Enemy(pygame.sprite.Sprite):
                 y = (point[1] * const) + const / 2
                 points.append((x, y))
             try:
-                pygame.draw.lines(screen, '#4a4a4a', False, points, 5)
+                pygame.draw.lines(screen, '#34c924', False, points, 5)
             except:
                 print("error")
 
