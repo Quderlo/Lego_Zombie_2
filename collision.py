@@ -4,7 +4,7 @@ from constants import collision_tolerance, player_size
 from math import sqrt
 
 
-"""def col(subject, arr_subject):
+def col(subject, arr_subject):
     blocked_side = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
     for i in arr_subject:
@@ -18,8 +18,8 @@ from math import sqrt
             if abs(subject.rect.centerx - i.rect.centerx) <= (subject_width + i_width) \
                     and abs(subject.rect.centery - i.rect.centery) <= (subject_height + i_height):
 
-                if abs(subject.rect.left - i.rect.left) + abs(subject.rect.right - i.rect.right) <= \
-                        (int(subject_height + i_height) + collision_tolerance):
+                if abs(subject.rect.left - i.rect.left) + abs(subject.rect.right - i.rect.right) < \
+                        (int(subject_height + i_height)):
 
                     if (abs(subject.rect.top - i.rect.bottom) <= collision_tolerance or blocked_side['top']
                             or abs(subject.rect.topleft[1] - i.rect.bottomleft[1]) <= collision_tolerance
@@ -35,8 +35,8 @@ from math import sqrt
                     else:
                         blocked_side['bottom'] = False
 
-                if abs(subject.rect.top - i.rect.top) + abs(subject.rect.bottom - i.rect.bottom) <= \
-                        (int(subject_width + i_width) + collision_tolerance):
+                if abs(subject.rect.top - i.rect.top) + abs(subject.rect.bottom - i.rect.bottom) < \
+                        (int(subject_width + i_width)):
 
                     if (abs(subject.rect.left - i.rect.right) <= collision_tolerance or blocked_side['left']
                             or abs(subject.rect.bottomleft[0] - i.rect.bottomright[0]) <= collision_tolerance
@@ -52,4 +52,4 @@ from math import sqrt
                     else:
                         blocked_side['right'] = False
 
-    return blocked_side"""
+    return blocked_side

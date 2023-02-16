@@ -6,7 +6,7 @@ from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 # from enemy.enemy import zombie
 from math import sqrt
-#from collision import col
+from collision import col
 from pygame import mixer
 from enemy.zombie import zombie_group, zombie, zombie1, matrix
 from threading import Thread
@@ -99,6 +99,7 @@ def pause():
 
 
 def play_solo():
+
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -110,11 +111,13 @@ def play_solo():
     main_menu_music.stop()
 
     while True:
+        keko = clock.get_fps()
+        pygame.display.set_caption("FPS: " + str(keko))
         id(matrix)
-        matrix[10][10] = 0
-        matrix[10][11] = 0
-        matrix[11][10] = 0
-        matrix[11][11] = 0
+        #matrix[10][10] = 0
+        #matrix[10][11] = 0
+        #matrix[11][10] = 0
+        #matrix[11][11] = 0
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
@@ -131,13 +134,13 @@ def play_solo():
         player.render_player()
 
         zombie.update()
-        zombie.movement(matrix)
+        zombie.movement(matrix, col(zombie, (zombie1,zombie, player)))
         zombie1.update()
-        zombie1.movement(matrix)
+        zombie1.movement(matrix, col(zombie1, (zombie1,zombie, player)))
         zombie_group.draw(screen)
 
 
-        pygame.time.delay(15)
+        #pygame.time.delay(15)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -151,7 +154,7 @@ def play_solo():
                 zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True)
                 zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True)
 
-
+        clock.tick(60)
         # if esc_key[pygame.K_ESCAPE]:
         # sys.exit()
 
@@ -179,7 +182,7 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        for i in zombie:
+        """for i in zombie:
             i.render_zombie()
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
@@ -188,7 +191,7 @@ def play_duo():
                    # i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
                 else:
                     pass
-                    #i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
+                    #i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))"""
 
         player.render_player()
         player2.render_player()

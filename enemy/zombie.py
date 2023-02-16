@@ -7,6 +7,7 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 import random
 from threading import Thread
+from constants import enemy_move_speed
 
 # from matrix import matrix
 
@@ -22,6 +23,7 @@ const = 50
 pygame.init()
 screen = pygame.display.set_mode((1000, 1000))
 clock = pygame.time.Clock()
+
 
 
 
@@ -132,11 +134,13 @@ class Enemy(pygame.sprite.Sprite):
             self.path, _ = finder.find_path(start, end, self.grid)
             self.grid.cleanup()
 
-    def move(self, diffx, diffy):
-        self.rect.x += diffx
-        self.rect.y += diffy
+    def move(self, diffx, diffy, blocked_side):
+        if (not blocked_side['right'] and diffx > 0) or (not blocked_side['left'] and diffx < 0):
+            self.rect.x += diffx
+        if (not blocked_side['bottom'] and diffy > 0) or (not blocked_side['top'] and diffy < 0):
+            self.rect.y += diffy
 
-    def movement(self, matrix_matrix):
+    def movement(self, matrix_matrix, blocked_side):
         global bool_for_timer
 
         id(matrix_matrix)
@@ -145,30 +149,30 @@ class Enemy(pygame.sprite.Sprite):
             yy = self.path[0][1]
             if (self.rect.x // const == xx) and (self.rect.y // const == yy):
                 # print("DELETE")
-                matrix_matrix[self.rect.y // 50][self.rect.x // 50] = 0
+                matrix_matrix[self.rect.y // const][self.rect.x // const] = 0
                 self.path.pop(0)
             elif not bool_for_timer:
-                matrix_matrix[self.rect.y // 50][self.rect.x // 50] = 1
+                matrix_matrix[self.rect.y // const][self.rect.x // const] = 1
             # move right
             if self.rect.x // const < xx:
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_right.jpg').convert_alpha()
                 self.image = pygame.transform.scale(self.image, (const, const))
-                self.move(2, 0)
+                self.move(enemy_move_speed, 0 , blocked_side)
             # move left
             if self.rect.x // const > xx:
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_left.jpg').convert_alpha()
                 self.image = pygame.transform.scale(self.image, (const, const))
-                self.move(-2, 0)
+                self.move(-enemy_move_speed, 0, blocked_side)
             # move down
             if self.rect.y // const < yy:
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_down.jpg').convert_alpha()
                 self.image = pygame.transform.scale(self.image, (const, const))
-                self.move(0, 2)
+                self.move(0, enemy_move_speed, blocked_side)
             # move up
             if self.rect.y // const > yy:
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_up.jpg').convert_alpha()
                 self.image = pygame.transform.scale(self.image, (const, const))
-                self.move(0, -2)
+                self.move(0, -enemy_move_speed, blocked_side)
 
             # down right
             if (self.rect.x // const < xx) and (self.rect.y // const < yy):
