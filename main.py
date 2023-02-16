@@ -288,5 +288,4 @@ def main_menu():
 
 
 main_menu()
-# t = Thread(target=main_menu, args=())
-# t.start()
+
