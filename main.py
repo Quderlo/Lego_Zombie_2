@@ -1,7 +1,6 @@
 import sys
 import pygame
 
-
 from game_background import Background, get_font, menu_BG, esc_menu
 from main_menu_buttons import main_menu_music, button_click, main_menu_button, button_hover
 from player import player, player2
@@ -10,11 +9,11 @@ from button import Button
 from math import sqrt
 from collision import col
 from pygame import mixer
-from enemy.zombie import zombie_group, zombie, zombie1, matrix
-#from threading import Thread
+from enemy.zombie import zombie, matrix, num_of_enemies
+# from threading import Thread
 from screen import screen
 from pause import pause
-
+from game_background import bg_col
 
 pygame.init()
 pygame.display.set_caption("POVT.EXE")
@@ -25,7 +24,6 @@ clock = pygame.time.Clock()
 
 
 def play_solo():
-
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -38,11 +36,9 @@ def play_solo():
     bullets_list = []
 
     while True:
-        keko = clock.get_fps() # TODO: Поменяй
-        pygame.display.set_caption("FPS: " + str(keko))
+        get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
+        pygame.display.set_caption("FPS: " + str(get_fps))
         id(matrix)
-
-
         matrix[10][10] = 0
         matrix[11][10] = 0
         matrix[11][11] = 0
@@ -54,17 +50,15 @@ def play_solo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        player.movement(col(player, (zombie1, zombie, Background[5][5])))
+        player.movement(col(player, zombie + bg_col))
         player.render_player()
 
-        zombie.update()
-        zombie.movement(matrix, col(zombie, (zombie1, zombie, player, Background[5][5])))
-        zombie1.update()
-        zombie1.movement(matrix, col(zombie1, (zombie1, zombie, player, Background[5][5])))
-        zombie_group.draw(screen)
+        # bullets_list = player.shoot(bullets_list, [zombie])
+        # bullets_list, zombie = player.shoot(bullets_list, zombie)
 
-        bullets_list = player.shoot(bullets_list, [zombie, zombie1])
-        # bullets_list, zombie_group = player.shoot(bullets_list, zombie_group)
+        for i in range(num_of_enemies):
+            zombie[i].update()
+            zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col))
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -76,8 +70,12 @@ def play_solo():
                 mixer.music.pause()
                 pause()
             if event.type == pygame.USEREVENT:
-                zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True, player.rect)
-                zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
+                for i in range(num_of_enemies):
+                    zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect)
+                    # for i in zombie:
+                    pass
+                    # i.create_path(i.rect.x // 50, i.rect.y // 50, matrix, True, player.rect)
+                # zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
         clock.tick(60)
 
 
@@ -105,16 +103,14 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        """for i in zombie:
+        for i in zombie:
             i.render_zombie()
 
             if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
                 if dist(i):
-                    pass
-                   # i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
+                    i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
                 else:
-                    pass
-                    #i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))"""
+                    i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
 
         player.render_player()
         player2.render_player()
@@ -134,11 +130,11 @@ def play_duo():
                 pause()
 
 
-
 def main_menu():
     main_menu_music.play()
 
     while True:
+
         menu_mouse_pos = pygame.mouse.get_pos()
         screen.blit(menu_BG, (0, 0))
 
@@ -172,5 +168,5 @@ def main_menu():
 
         pygame.display.update()
 
-main_menu()
 
+main_menu()

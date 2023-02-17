@@ -93,7 +93,6 @@ class Player(object):
             self.side = (0, player_move_speed)
             self.move(self.side[0], self.side[1], blocked_side)
 
-
     def shoot(self, bullets_list, zombie_list):
 
         key = pygame.key.get_pressed()
@@ -102,7 +101,7 @@ class Player(object):
             for zombie in zombie_list:
                 if bullet.hit(zombie):
                     bullets_list.pop(bullets_list.index(bullet))
-                    #zombie_list[zombie_list.index(zombie)].enemy_hp -= 10
+                    zombie_list[zombie_list.index(zombie)].enemy_hp -= 10
                     break
 
             if bullet.rect.x >= width or bullet.rect.x <= 0 \

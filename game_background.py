@@ -45,7 +45,31 @@ for i in range(int(height / bg_size_x) + 1):  # Заполнение карты 
             floor = Floor(i * bg_size_x, j * bg_size_y)
             Background[i].append(floor)
 
+"""for i in range(4):  # Заполнение карты (создание двойного массива с блоками)
+    for j in range(1):
+        Background[i][j] = Fence(i * bg_size_x, j * bg_size_y)"""
+
+for i in range(6, 10, 1):  # Заполнение карты (создание двойного массива с блоками)
+    for j in range(1):
+        Background[i][j] = Fence(i * bg_size_x, j * bg_size_y)
+for i in range(0, 4, 1):  # Заполнение карты (создание двойного массива с блоками)
+    for j in range(1):
+        Background[i][j] = Fence(i * bg_size_x, j * bg_size_y)
+
+for i in range(6, 10, 1):  # Заполнение карты (создание двойного массива с блоками)
+        Background[i][9] = Fence(i * bg_size_x, 9 * bg_size_y)
+
+for i in range(0, 4, 1):  # Заполнение карты (создание двойного массива с блоками)
+        Background[i][9] = Fence(i * bg_size_x, 9 * bg_size_y)
+
+
 Background[5][5] = Fence(5 * bg_size_x, 5 * bg_size_y)
+bg_col = []
+
+for i in range(int(height / bg_size_x) + 1):
+    for j in range(int(width / bg_size_y) + 1):
+        if not Background[i][j].pass_on:
+            bg_col.append(Background[i][j])
 
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
