@@ -142,7 +142,9 @@ def timer():
     while True:
         #time.sleep(2)
         bool_for_timer = False
+        print("False")
         time.sleep(0.5)
+        print("True")
         bool_for_timer = True
 
 

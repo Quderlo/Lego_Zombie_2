@@ -3,6 +3,7 @@ from constants import width, height, player_size, player_move_speed
 from bullets import Bullet
 from screen import screen
 
+bool_for_timer = True
 
 player1_x = width / 2 - player_size
 player1_y = height / 2 - player_size
@@ -92,7 +93,9 @@ class Player(object):
             self.side = (0, player_move_speed)
             self.move(self.side[0], self.side[1], blocked_side)
 
+
     def shoot(self, bullets_list, zombie_list):
+
         key = pygame.key.get_pressed()
 
         for bullet in bullets_list:
@@ -111,7 +114,6 @@ class Player(object):
 
         if key[pygame.K_SPACE]:
             bullets_list.append(Bullet(player))
-
         return bullets_list
         # return bullets_list, zombie_list
 
