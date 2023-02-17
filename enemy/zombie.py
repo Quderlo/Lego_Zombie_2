@@ -142,7 +142,9 @@ def timer():
     while True:
         #time.sleep(2)
         bool_for_timer = False
+        print("False")
         time.sleep(0.5)
+        print("True")
         bool_for_timer = True
 
 
@@ -159,8 +161,7 @@ class Enemy(pygame.sprite.Sprite):
         # basic
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('assets/images/zombie_img/zombie_down.jpg').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (50, 50))
-        self.rect = self.image.get_rect(center=(50, 50))
+        self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
