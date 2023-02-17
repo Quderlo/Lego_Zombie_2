@@ -19,4 +19,8 @@ class Bullet(object):
         self.rect.x += self.vel[0]
         self.rect.y += self.vel[1]
 
-
+    def hit(self, zombie):
+        if pygame.Rect.colliderect(self.rect, zombie):
+            return True
+        else:
+            return False

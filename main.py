@@ -90,7 +90,6 @@ def pause():
 
         screen.blit(esc_menu, (0, 0))
 
-        # print(menu_mouse_pos)
         for button in [yes_button, no_button]:
             button.changeColor(menu_mouse_pos)
             button.update(screen)
@@ -113,39 +112,23 @@ def play_solo():
     bullets_list = []
 
     while True:
-        keko = clock.get_fps()
+        keko = clock.get_fps() # TODO: Поменяй
         pygame.display.set_caption("FPS: " + str(keko))
         id(matrix)
 
-        #matrix[5][5] = 0
         matrix[10][10] = 0
         matrix[11][10] = 0
         matrix[11][11] = 0
         matrix[10][12] = 0
 
-        """matrix[20][20] = 0
-        matrix[20][21] = 0
-        matrix[21][20] = 0
-        matrix[21][21] = 0
-        matrix[21][22] = 0
-        matrix[22][22] = 0
-        matrix[22][23] = 0
-        matrix[24][24] = 0"""
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        """for i in zombie:
-            i.render_zombie()
-            if not i.attack_player(player.rect):
-                i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))"""
-
         player.movement(col(player, (zombie1, zombie, Background[5][5])))
-        #player.movement(col(player, player))
         player.render_player()
-        bullets_list = player.shoot(bullets_list)
 
         zombie.update()
         zombie.movement(matrix, col(zombie, (zombie1, zombie, player, Background[5][5])))
@@ -153,9 +136,9 @@ def play_solo():
         zombie1.movement(matrix, col(zombie1, (zombie1, zombie, player, Background[5][5])))
         zombie_group.draw(screen)
 
-        mouse = pygame.mouse.get_pos()
+        bullets_list = player.shoot(bullets_list, [zombie, zombie1])
+        # bullets_list, zombie_group = player.shoot(bullets_list, zombie_group)
 
-        #pygame.time.delay(15)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -169,8 +152,6 @@ def play_solo():
                 zombie.create_path(zombie.rect.x // 50, zombie.rect.y // 50, matrix, True, player.rect)
                 zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
         clock.tick(60)
-        # if esc_key[pygame.K_ESCAPE]:
-        # sys.exit()
 
 
 def dist(pos):
@@ -189,6 +170,7 @@ def play_duo():
     mixer.music.set_volume(0.1)
     mixer.music.play(-1)
     main_menu_music.stop()
+
     while True:
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):

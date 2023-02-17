@@ -159,8 +159,7 @@ class Enemy(pygame.sprite.Sprite):
         # basic
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('assets/images/zombie_img/zombie_down.jpg').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (50, 50))
-        self.rect = self.image.get_rect(center=(50, 50))
+        self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
@@ -252,7 +251,6 @@ class Enemy(pygame.sprite.Sprite):
             if (self.rect.x // const > xx) and (self.rect.y // const < yy):
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_down_left.jpg').convert_alpha()
                 #self.image = pygame.transform.scale(self.image, (const, const))
-
 
     def draw_path(self):
         if self.path:

@@ -22,9 +22,6 @@ class Floor(object):  # Описание заднего фона
     def get_texture(self):
         return self.texture
 
-    def hui(self):  # TODO: Переименовать            #TODO: AHAHAHAHHAHAHAHAHAHAH
-        return self.pass_on
-
 
 class Fence(object):
     def __init__(self, x, y):
@@ -41,9 +38,6 @@ class Fence(object):
     def get_texture(self):
         return self.texture
 
-    def hui(self):  # TODO: Переименовать
-        return self.pass_on
-
 
 for i in range(int(height / bg_size_x) + 1):  # Заполнение карты (создание двойного массива с блоками)
     Background.append([])
@@ -53,6 +47,6 @@ for i in range(int(height / bg_size_x) + 1):  # Заполнение карты 
 
 Background[5][5] = Fence(5 * bg_size_x, 5 * bg_size_y)
 
+
 def get_font(size):  # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
-#TODO: Повты клоуны
