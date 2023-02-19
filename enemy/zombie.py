@@ -169,7 +169,6 @@ class Enemy(object):
             xx = self.path[0][0]
             yy = self.path[0][1]
             # move right
-            print(xx)
             """if blocked_side['bottom']:
                 xx += 5
             if blocked_side['top']:
@@ -222,7 +221,8 @@ class Enemy(object):
             try:
                 pygame.draw.lines(screen, '#34c924', False, points, 5)
             except:
-                print("error")
+                pass
+                #print("error")
 
     def update(self):
         self.draw_path()
