@@ -36,6 +36,7 @@ def play_solo():
     bullets_list = []
 
     while True:
+        #print(col(zombie[0], [player])['top'])
         get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
         pygame.display.set_caption("FPS: " + str(get_fps))
         id(matrix)
@@ -58,7 +59,7 @@ def play_solo():
 
         for i in range(num_of_enemies):
             zombie[i].update()
-            zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col))
+            zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), player)
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -71,9 +72,11 @@ def play_solo():
                 pause()
             if event.type == pygame.USEREVENT:
                 for i in range(num_of_enemies):
-                    zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect)
+                    try:
+                        zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect, col(zombie[i], zombie + [player] + bg_col))
+                    except:
+                        print("fix it in the future")
                     # for i in zombie:
-                    pass
                     # i.create_path(i.rect.x // 50, i.rect.y // 50, matrix, True, player.rect)
                 # zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
         clock.tick(60)
@@ -97,6 +100,7 @@ def play_duo():
     main_menu_music.stop()
 
     while True:
+
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
             for j in range(int(width / bg_size_x)):
