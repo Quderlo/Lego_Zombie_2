@@ -241,8 +241,8 @@ def spawner(count):
     count_now = 0
 
     while count > count_now:
-        print(count_now)
-        print(count)
+        #print(count_now)
+        #print(count)
         count_now = len(zombie)
         z = Enemy(random.randint(450, 500), random.randint(0, 0))
         zombie.append(z)
