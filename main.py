@@ -9,7 +9,7 @@ from button import Button
 from math import sqrt
 from collision import col
 from pygame import mixer
-from enemy.zombie import zombie, matrix, num_of_enemies
+from enemy.zombie import zombie, matrix, num_of_enemies, t2
 # from threading import Thread
 from screen import screen
 from pause import pause
@@ -24,6 +24,7 @@ clock = pygame.time.Clock()
 
 
 def play_solo():
+    t2.start()
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -36,7 +37,7 @@ def play_solo():
     bullets_list = []
 
     while True:
-        #print(col(zombie[0], [player])['top'])
+        # print(col(zombie[0], [player])['top'])
         get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
         pygame.display.set_caption("FPS: " + str(get_fps))
         id(matrix)
@@ -57,9 +58,13 @@ def play_solo():
         # bullets_list = player.shoot(bullets_list, [zombie])
         # bullets_list, zombie = player.shoot(bullets_list, zombie)
 
-        for i in range(num_of_enemies):
-            zombie[i].update()
-            zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), player)
+        try:
+            for i in range(num_of_enemies):
+                zombie[i].update()
+                #print(zombie)
+                zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), player)
+        except:
+            pass
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -73,7 +78,8 @@ def play_solo():
             if event.type == pygame.USEREVENT:
                 for i in range(num_of_enemies):
                     try:
-                        zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect, col(zombie[i], zombie + [player] + bg_col))
+                        zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect,
+                                              col(zombie[i], zombie + [player] + bg_col))
                     except:
                         print("fix it in the future")
                     # for i in zombie:

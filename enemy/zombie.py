@@ -233,10 +233,28 @@ pygame.time.set_timer(pygame.USEREVENT, 300)
 
 zombie = []
 
-num_of_enemies = 10
+num_of_enemies = 5
 
-for i in range(num_of_enemies):
-    z = Enemy(random.randint(100, 900), random.randint(100, 900))
-    zombie.append(z)
+spawn = True
+
+def spawner(count):
+    count_now = 0
+
+    while count > count_now:
+        print(count_now)
+        print(count)
+        count_now = len(zombie)
+        z = Enemy(random.randint(450, 500), random.randint(0, 0))
+        zombie.append(z)
+        time.sleep(2)
+
+
+t2 = Thread(target=spawner, args=(num_of_enemies,), daemon=True)
+
+
+
+#for i in range(num_of_enemies):
+
+
 
 
