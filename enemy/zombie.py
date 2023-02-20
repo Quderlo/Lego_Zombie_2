@@ -233,7 +233,7 @@ pygame.time.set_timer(pygame.USEREVENT, 300)
 
 zombie = []
 
-num_of_enemies = 5
+num_of_enemies = 20
 
 spawn = True
 

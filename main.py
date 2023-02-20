@@ -81,7 +81,7 @@ def play_solo():
                         zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect,
                                               col(zombie[i], zombie + [player] + bg_col))
                     except:
-                        print("fix it in the future")
+                        pass
                     # for i in zombie:
                     # i.create_path(i.rect.x // 50, i.rect.y // 50, matrix, True, player.rect)
                 # zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
