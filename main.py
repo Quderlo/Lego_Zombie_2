@@ -1,4 +1,7 @@
 import sys
+import threading
+import time
+
 import pygame
 
 from game_background import Background, get_font, menu_BG, esc_menu
@@ -23,8 +26,23 @@ in_game_Background = Background
 clock = pygame.time.Clock()
 
 
+def enemy_path_ai():
+    while True:
+        time.sleep(0.5)
+        for i in range(10):
+            # print(i)
+            try:
+                zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect,
+                                          col(zombie[i], zombie + [player] + bg_col))
+            except:
+                pass
+
+
+thr1 = threading.Thread(target=enemy_path_ai, daemon=True)
+
 def play_solo():
     t2.start()
+    thr1.start()
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -37,7 +55,6 @@ def play_solo():
     bullets_list = []
 
     while True:
-        # print(col(zombie[0], [player])['top'])
         get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
         pygame.display.set_caption("FPS: " + str(get_fps))
         id(matrix)
@@ -61,10 +78,15 @@ def play_solo():
         try:
             for i in range(num_of_enemies):
                 zombie[i].update()
-                #print(zombie)
                 zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), player)
         except:
             pass
+
+        count_now = len(zombie)
+        if count_now >= 10:
+            for i in range(10, count_now):
+                zombie[i].stupid_ai(player.rect, col(zombie[i], zombie + [player] + bg_col))
+                pass
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -76,15 +98,7 @@ def play_solo():
                 mixer.music.pause()
                 pause()
             if event.type == pygame.USEREVENT:
-                for i in range(num_of_enemies):
-                    try:
-                        zombie[i].create_path(zombie[i].rect.x // 50, zombie[i].rect.y // 50, matrix, True, player.rect,
-                                              col(zombie[i], zombie + [player] + bg_col))
-                    except:
-                        pass
-                    # for i in zombie:
-                    # i.create_path(i.rect.x // 50, i.rect.y // 50, matrix, True, player.rect)
-                # zombie1.create_path(zombie1.rect.x // 50, zombie1.rect.y // 50, matrix, True, player.rect)
+                pass
         clock.tick(60)
 
 

@@ -6,7 +6,6 @@ from pathfinding.finder.a_star import AStarFinder
 import random
 from threading import Thread
 from constants import enemy_move_speed
-from random import choice
 
 
 # spawn enemy
@@ -169,15 +168,6 @@ class Enemy(object):
             xx = self.path[0][0]
             yy = self.path[0][1]
             # move right
-            """if blocked_side['bottom']:
-                xx += 5
-            if blocked_side['top']:
-                xx -= 5
-            if blocked_side['left']:
-                yy += 5
-            if blocked_side['right']:
-                yy -= 5"""
-
 
             if self.rect.x // const < xx:
                 self.image = pygame.image.load('assets/images/zombie_img/zombie_right.jpg').convert_alpha()
@@ -211,6 +201,16 @@ class Enemy(object):
                 # print("DELETE")
                 self.path.pop(0)
 
+    def stupid_ai(self, player, blocked_side):
+        if player[0] > self.rect.x:
+            self.move(enemy_move_speed - 1, 0, blocked_side)
+        if player[1] > self.rect.y:
+            self.move(0, enemy_move_speed - 1, blocked_side)
+        if player[0] < self.rect.x:
+            self.move(-enemy_move_speed + 1, 0, blocked_side)
+        if player[1] < self.rect.y:
+            self.move(0, enemy_move_speed + 1, blocked_side)
+
     def draw_path(self):
         if self.path:
             points = []
@@ -229,11 +229,11 @@ class Enemy(object):
         screen.blit(self.image, self.rect)
 
 
-pygame.time.set_timer(pygame.USEREVENT, 300)
+pygame.time.set_timer(pygame.USEREVENT, 500)
 
 zombie = []
 
-num_of_enemies = 20
+num_of_enemies = 30
 
 spawn = True
 
@@ -241,8 +241,6 @@ def spawner(count):
     count_now = 0
 
     while count > count_now:
-        #print(count_now)
-        #print(count)
         count_now = len(zombie)
         z = Enemy(random.randint(450, 500), random.randint(0, 0))
         zombie.append(z)
@@ -251,9 +249,6 @@ def spawner(count):
 
 t2 = Thread(target=spawner, args=(num_of_enemies,), daemon=True)
 
-
-
-#for i in range(num_of_enemies):
 
 
 
