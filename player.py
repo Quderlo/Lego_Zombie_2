@@ -41,6 +41,7 @@ class Player(object):
         self.rect.x = px
         self.rect.y = py
         self.side = (0, -1)
+        self.helth = 55
 
     def move(self, diffx, diffy, blocked_side):
         if (not blocked_side['right'] and diffx > 0) or (not blocked_side['left'] and diffx < 0):
@@ -50,6 +51,10 @@ class Player(object):
 
     def render_player(self):
         screen.blit(self.image, self.rect)
+        pygame.draw.rect(screen, (128, 0, 0), (self.rect.x, self.rect.y - 18, 60, 10))
+        if self.helth >= 0:
+            pygame.draw.rect(screen, (0, 255, 0), (self.rect.x, self.rect.y - 18, self.helth, 10))
+
 
     def movement(self, blocked_side):
         key = pygame.key.get_pressed()
