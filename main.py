@@ -25,6 +25,8 @@ pygame.display.set_icon(game_icon)
 in_game_Background = Background
 clock = pygame.time.Clock()
 
+bool_of_move = True
+
 
 def enemy_path_ai():
     while True:
@@ -37,12 +39,33 @@ def enemy_path_ai():
             except:
                 pass
 
+def enemy_attack():
+    global bool_of_move
+
+
+    while True:
+        time.sleep(1.5)
+
+        for i in range(num_of_enemies):
+
+            distance = int(sqrt((zombie[i].rect.x - player.rect.x) ** 2 + (zombie[i].rect.y - player.rect.y) ** 2))
+
+            if distance <= 100:
+                bool_of_move = False
+                player.helth -= 10
+                time.sleep(0.5)
+
+        bool_of_move = True
+
 
 thr1 = threading.Thread(target=enemy_path_ai, daemon=True)
+thr2 = threading.Thread(target=enemy_attack, daemon=True)
+
 
 def play_solo():
     t2.start()
     thr1.start()
+    thr2.start()
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -78,7 +101,7 @@ def play_solo():
         try:
             for i in range(num_of_enemies):
                 zombie[i].update()
-                zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), player)
+                zombie[i].movement(matrix, col(zombie[i], zombie + [player] + bg_col), bool_of_move)
         except:
             pass
 

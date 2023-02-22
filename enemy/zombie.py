@@ -79,7 +79,7 @@ class Enemy(object):
         # pathfinding
         self.path = []
 
-    def check_collision(self):
+    def throwing_back(self):
          pass
 
     def create_path(self, rect_x, rect_y, get, off_create_path, player_pos, blocked_side):
@@ -153,7 +153,7 @@ class Enemy(object):
         if (not blocked_side['bottom'] and diffy > 0) or (not blocked_side['top'] and diffy < 0):
             self.rect.y += diffy
 
-    def movement(self, matrix_matrix, blocked_side, player):
+    def movement(self, matrix_matrix, blocked_side, bool_of_move):
         global bool_for_timer
 
         id(matrix_matrix)
@@ -162,44 +162,44 @@ class Enemy(object):
 
         #if blocked_side['bottom'] and player.rect.y > self.rect.y:
            # self.attack()
+        if bool_of_move:
+            # default move
+            if len(self.path) != 0:
+                xx = self.path[0][0]
+                yy = self.path[0][1]
+                # move right
 
-        # default move
-        if len(self.path) != 0:
-            xx = self.path[0][0]
-            yy = self.path[0][1]
-            # move right
+                if self.rect.x // const < xx:
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_right.jpg').convert_alpha()
+                    self.move(enemy_move_speed, 0, blocked_side)
+                # move left
+                if self.rect.x // const > xx:
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_left.jpg').convert_alpha()
+                    self.move(-enemy_move_speed, 0, blocked_side)
+                # move down
+                if self.rect.y // const < yy:
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_down.jpg').convert_alpha()
+                    self.move(0, enemy_move_speed, blocked_side)
+                # move up
+                if self.rect.y // const > yy:
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_up.jpg').convert_alpha()
+                    self.move(0, -enemy_move_speed, blocked_side)
 
-            if self.rect.x // const < xx:
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_right.jpg').convert_alpha()
-                self.move(enemy_move_speed, 0, blocked_side)
-            # move left
-            if self.rect.x // const > xx:
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_left.jpg').convert_alpha()
-                self.move(-enemy_move_speed, 0, blocked_side)
-            # move down
-            if self.rect.y // const < yy:
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_down.jpg').convert_alpha()
-                self.move(0, enemy_move_speed, blocked_side)
-            # move up
-            if self.rect.y // const > yy:
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_up.jpg').convert_alpha()
-                self.move(0, -enemy_move_speed, blocked_side)
-
-            # down right
-            if (self.rect.x // const < xx) and (self.rect.y // const < yy):
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_down_right.jpg').convert_alpha()
-            # up right
-            if (self.rect.x // const < xx) and (self.rect.y // const > yy):
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_up_right.jpg').convert_alpha()
-            # up left
-            if (self.rect.x // const > xx) and (self.rect.y // const > yy):
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_up_left.jpg').convert_alpha()
-            # down left
-            if (self.rect.x // const > xx) and (self.rect.y // const < yy):
-                self.image = pygame.image.load('assets/images/zombie_img/zombie_down_left.jpg').convert_alpha()
-            if (self.rect.x // const == xx) and (self.rect.y // const == yy):
-                # print("DELETE")
-                self.path.pop(0)
+                # down right
+                if (self.rect.x // const < xx) and (self.rect.y // const < yy):
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_down_right.jpg').convert_alpha()
+                # up right
+                if (self.rect.x // const < xx) and (self.rect.y // const > yy):
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_up_right.jpg').convert_alpha()
+                # up left
+                if (self.rect.x // const > xx) and (self.rect.y // const > yy):
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_up_left.jpg').convert_alpha()
+                # down left
+                if (self.rect.x // const > xx) and (self.rect.y // const < yy):
+                    self.image = pygame.image.load('assets/images/zombie_img/zombie_down_left.jpg').convert_alpha()
+                if (self.rect.x // const == xx) and (self.rect.y // const == yy):
+                    # print("DELETE")
+                    self.path.pop(0)
 
     def stupid_ai(self, player, blocked_side):
         if player[0] > self.rect.x:
@@ -233,7 +233,7 @@ pygame.time.set_timer(pygame.USEREVENT, 500)
 
 zombie = []
 
-num_of_enemies = 40
+num_of_enemies = 2 // 2
 
 spawn = True
 
@@ -244,7 +244,9 @@ def spawner(count):
     while count > count_now:
         count_now = len(zombie)
         z = Enemy(random.randint(450, 500), random.randint(0, 0))
+        z1 = Enemy(random.randint(450, 500), random.randint(900, 990))
         zombie.append(z)
+        zombie.append(z1)
         time.sleep(2)
 
 
