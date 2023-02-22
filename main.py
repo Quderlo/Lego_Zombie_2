@@ -46,10 +46,11 @@ def enemy_attack():
 
 
     while True:
-        time.sleep(1)
+        time.sleep(2)
         jump_count = 10
-        for i in range(num_of_enemies):
+        for i in range(len(zombie)):
             # zombie[i].self_distance(player)
+
             if zombie[i].self_distance(player) <= 100:
                 near_zombie = zombie[i]
                 bool_of_move = False
