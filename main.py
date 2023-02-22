@@ -17,6 +17,7 @@ from enemy.zombie import zombie, matrix, num_of_enemies, t2
 from screen import screen
 from pause import pause
 from game_background import bg_col
+from constants import player_size
 
 pygame.init()
 pygame.display.set_caption("POVT.EXE")
@@ -30,7 +31,7 @@ bool_of_move = True
 
 def enemy_path_ai():
     while True:
-        time.sleep(0.5)
+        time.sleep(1)
         for i in range(10):
             # print(i)
             try:
@@ -39,20 +40,41 @@ def enemy_path_ai():
             except:
                 pass
 
+
 def enemy_attack():
     global bool_of_move
 
 
     while True:
-        time.sleep(1.5)
-
+        time.sleep(1)
+        jump_count = 10
         for i in range(num_of_enemies):
-
-            distance = int(sqrt((zombie[i].rect.x - player.rect.x) ** 2 + (zombie[i].rect.y - player.rect.y) ** 2))
-
-            if distance <= 100:
+            # zombie[i].self_distance(player)
+            if zombie[i].self_distance(player) <= 100:
+                near_zombie = zombie[i]
                 bool_of_move = False
-                player.helth -= 10
+
+                if near_zombie.rect.y // player_size < player.rect.y // player_size:
+                    for j in range(30):
+                        player.move(0, 2, col(player, zombie + [player] + bg_col))
+                        time.sleep(0.0025)
+
+                elif near_zombie.rect.y // player_size > player.rect.y // player_size:
+                    for j in range(30):
+                        player.move(0, -2, col(player, zombie + [player] + bg_col))
+                        time.sleep(0.0025)
+
+                elif near_zombie.rect.x // player_size < player.rect.x // player_size:
+                    for j in range(30):
+                        player.move(2, 0, col(player, zombie + [player] + bg_col))
+                        time.sleep(0.0025)
+
+                elif near_zombie.rect.x // player_size > player.rect.x // player_size:
+                    for j in range(30):
+                        player.move(-2, 0, col(player, zombie + [player] + bg_col))
+                        time.sleep(0.0025)
+
+                player.helth -= 10  #TODO: enemy_damage
                 time.sleep(0.5)
 
         bool_of_move = True

@@ -6,6 +6,7 @@ from pathfinding.finder.a_star import AStarFinder
 import random
 from threading import Thread
 from constants import enemy_move_speed
+from math import sqrt
 
 
 # spawn enemy
@@ -79,8 +80,9 @@ class Enemy(object):
         # pathfinding
         self.path = []
 
-    def throwing_back(self):
-         pass
+    def self_distance(self, player):
+        distance = int(sqrt((self.rect.x - player.rect.x) ** 2 + (self.rect.y - player.rect.y) ** 2))
+        return distance
 
     def create_path(self, rect_x, rect_y, get, off_create_path, player_pos, blocked_side):
         # start
@@ -233,7 +235,7 @@ pygame.time.set_timer(pygame.USEREVENT, 500)
 
 zombie = []
 
-num_of_enemies = 2 // 2
+num_of_enemies = 4 // 2
 
 spawn = True
 
