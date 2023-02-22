@@ -211,7 +211,7 @@ class Enemy(object):
         if player[0] < self.rect.x:
             self.move(-enemy_move_speed + 1, 0, blocked_side)
         if player[1] < self.rect.y:
-            self.move(0, enemy_move_speed + 1, blocked_side)
+            self.move(0, -enemy_move_speed + 1, blocked_side)
 
     def draw_path(self):
         if self.path:
