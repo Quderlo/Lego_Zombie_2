@@ -5,8 +5,8 @@ import time
 import pygame
 
 from enemy.ai import thr1, thr2, bool_of_move
-from game_background import Background, get_font, menu_BG, esc_menu
-from main_menu_buttons import main_menu_music, button_click, main_menu_button, button_hover
+from game_background import Background, get_font, menu_BG
+from main_menu_buttons import main_menu_music, button_click, main_menu_button
 from player import player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
@@ -18,7 +18,6 @@ from enemy.zombie import zombie, matrix, num_of_enemies, t2
 from screen import screen
 from pause import pause
 from game_background import bg_col
-from constants import player_size
 
 pygame.init()
 pygame.display.set_caption("POVT.EXE")
@@ -33,6 +32,7 @@ def play_solo():
     t2.start()
     thr1.start()
     thr2.start()
+
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)

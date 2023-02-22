@@ -25,8 +25,7 @@ def enemy_attack():
     global bool_of_move
 
     while True:
-        time.sleep(2)
-        jump_count = 10
+        time.sleep(1)
         for i in range(len(zombie)):
             # zombie[i].self_distance(player)
 
@@ -60,8 +59,6 @@ def enemy_attack():
         bool_of_move = True
 
 
-
 thr2 = threading.Thread(target=enemy_attack, daemon=True)
-
 thr1 = threading.Thread(target=enemy_path_ai, daemon=True)
 
