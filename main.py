@@ -74,7 +74,7 @@ def play_solo():
     bullets_list = []
 
     while True:
-        our_hp = player.hp + player2.hp
+        our_hp = player.hp + player2.hp  # TODO: не допускать минусового hp
         if our_hp <= 0:
             game_over()
 
@@ -144,7 +144,7 @@ def play_duo():
     main_menu_music.stop()
 
     while True:
-        our_hp = player.hp + player2.hp
+        our_hp = player.hp + player2.hp  # TODO: не допускать минусового hp
         if our_hp <= 0:
             game_over()
 
