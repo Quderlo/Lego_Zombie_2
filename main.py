@@ -105,6 +105,14 @@ def play_solo():
         except:
             pass
 
+        count_now = len(zombie)
+        if count_now >= 10:
+            for j in range(10, count_now):
+                if dist(zombie[j]):
+                    zombie[j].stupid_ai(player.rect, col(zombie[j], zombie + [player, player2] + bg_col))
+                else:
+                    zombie[j].stupid_ai(player2.rect, col(zombie[j], zombie + [player, player2] + bg_col))
+
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
