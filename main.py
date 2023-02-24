@@ -4,16 +4,16 @@ import time
 
 import pygame
 
-from enemy.ai import thr1, thr2, bool_of_move
-from game_background import Background, get_font, menu_BG
-from main_menu_buttons import main_menu_music, button_click, main_menu_button
+from enemy.ai import t_enemy_attack_one, t_enemy_attack_two, t_create_path, bool_of_move, dist
+from game_background import Background, get_font, menu_BG, esc_menu
+from main_menu_buttons import main_menu_music, button_click, main_menu_button, game_over_music
 from player import player, player2
 from constants import width, height, bg_size_x, bg_size_y
 from button import Button
 from math import sqrt
 from collision import col
 from pygame import mixer
-from enemy.zombie import zombie, matrix, num_of_enemies, t2
+from enemy.zombie import zombie, matrix, num_of_enemies, t_spawner
 # from threading import Thread
 from screen import screen
 from pause import pause
@@ -27,11 +27,40 @@ in_game_Background = Background
 clock = pygame.time.Clock()
 
 
+def game_over():
+    game_is_over = True
+    game_over_music.play()
+    mixer.music.stop()
+    menu = pygame.image.load('assets/images/main_menu/game_over.jpg')
+    while game_is_over:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+        screen.blit(menu, (0, 0))
+
+        pygame.display.update()
+        clock.tick(50)
+
+
 def play_solo():
 
-    t2.start()
-    thr1.start()
-    thr2.start()
+    player2.rect.x = 2000
+    player2.rect.y = 2000
+
+    t_spawner.start()
+    t_enemy_attack_one.start()
+    t_enemy_attack_two.start()
+    t_create_path.start()
+
+    player2.hp = 0
+
 
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
@@ -45,7 +74,11 @@ def play_solo():
     bullets_list = []
 
     while True:
-        get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
+        our_hp = player.hp + player2.hp
+        if our_hp <= 0:
+            game_over()
+
+        get_fps = clock.get_fps()
         pygame.display.set_caption("FPS: " + str(get_fps))
         id(matrix)
         matrix[10][10] = 0
@@ -72,12 +105,6 @@ def play_solo():
         except:
             pass
 
-        count_now = len(zombie)
-        if count_now >= 10:
-            for i in range(10, count_now):
-                zombie[i].stupid_ai(player.rect, col(zombie[i], zombie + [player] + bg_col))
-                pass
-
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -92,13 +119,12 @@ def play_solo():
         clock.tick(60)
 
 
-def dist(pos):
-    zombie_to_player1_dist = int(sqrt((pos.rect.x - player.rect.x) ** 2 + (pos.rect.y - player.rect.y) ** 2))
-    zombie_to_player2_dist = int(sqrt((pos.rect.x - player2.rect.x) ** 2 + (pos.rect.y - player2.rect.y) ** 2))
-    return zombie_to_player1_dist > zombie_to_player2_dist
-
-
 def play_duo():
+    t_spawner.start()
+    t_enemy_attack_one.start()
+    t_enemy_attack_two.start()
+    t_create_path.start()
+
     # Background music
     start_round = pygame.mixer.Sound("assets/sounds/COD_start_round.mp3")
     start_round.set_volume(0.1)
@@ -110,6 +136,17 @@ def play_duo():
     main_menu_music.stop()
 
     while True:
+        our_hp = player.hp + player2.hp
+        if our_hp <= 0:
+            game_over()
+
+        get_fps = clock.get_fps()
+        pygame.display.set_caption("FPS: " + str(get_fps))
+        id(matrix)
+        matrix[10][10] = 0
+        matrix[11][10] = 0
+        matrix[11][11] = 0
+        matrix[10][12] = 0
 
         esc_key = pygame.key.get_pressed()
         for i in range(int(height / bg_size_y)):
@@ -117,22 +154,30 @@ def play_duo():
                 screen.blit(in_game_Background[i][j].get_texture(),
                             (in_game_Background[i][j].get_rect().x, in_game_Background[i][j].get_rect().y))
 
-        for i in zombie:
-            i.render_zombie()
+        get_fps = clock.get_fps()  # TODO: Поменяй       #TODO: это удалим потом
+        pygame.display.set_caption("FPS: " + str(get_fps))
+        try:
+            for i in range(num_of_enemies):
+                zombie[i].update()
+                zombie[i].movement(matrix, col(zombie[i], zombie + [player, player2] + bg_col), bool_of_move)
+        except:
+            pass
 
-            if (not i.attack_player(player.rect)) and (not i.attack_player(player2.rect)):
-                if dist(i):
-                    i.move(player2.rect.x, player2.rect.y, col(i, zombie + [Background[5][5]]))
+        count_now = len(zombie)
+        if count_now >= 10:
+            for j in range(10, count_now):
+                if dist(zombie[j]):
+                    zombie[j].stupid_ai(player.rect, col(zombie[j], zombie + [player, player2] + bg_col))
                 else:
-                    i.move(player.rect.x, player.rect.y, col(i, zombie + [Background[5][5]]))
+                    zombie[j].stupid_ai(player2.rect, col(zombie[j], zombie + [player, player2] + bg_col))
+
 
         player.render_player()
         player2.render_player()
 
-        # player.movement(col(player, [player, player2] + zombie + [Background[5][5]]))
-        # player2.movement(col(player2, [player, player2] + zombie + [Background[5][5]]))
+        player.movement(col(player, zombie + bg_col + [player2]))
+        player2.movement(col(player2, [player] + zombie + bg_col))
 
-        pygame.time.delay(15)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -142,10 +187,19 @@ def play_duo():
                 start_round.stop()
                 mixer.music.pause()
                 pause()
+        clock.tick(60)
 
 
 def main_menu():
     main_menu_music.play()
+
+    try:
+        t_spawner.join()
+        t_enemy_attack_one.join()
+        t_enemy_attack_two.join()
+        t_create_path.join()
+    except:
+        pass
 
     while True:
 

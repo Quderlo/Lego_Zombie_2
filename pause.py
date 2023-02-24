@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 button_hover_state_yes = False
 button_hover_state_no = False
 
+
 def pause():
     paused = True
     main_menu_music.play()

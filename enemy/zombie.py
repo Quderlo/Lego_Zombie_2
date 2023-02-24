@@ -21,8 +21,6 @@ screen = pygame.display.set_mode((1000, 1000))
 clock = pygame.time.Clock()
 
 
-
-
 matrix = [
     [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -93,7 +91,7 @@ class Enemy(object):
 
             bypass = 2
 
-            # bybass top
+            # bypass top
             if blocked_side['top'] and self.rect.x > player_pos[0]:
                 rect_x -= bypass
                 rect_y += bypass
@@ -104,9 +102,7 @@ class Enemy(object):
                 rect_x += bypass
                 rect_y += bypass
 
-
-
-            # bybass bottom
+            # bypass bottom
             elif blocked_side['bottom'] and self.rect.x > player_pos[0]:
                 rect_x -= bypass
                 rect_y -= bypass
@@ -147,7 +143,6 @@ class Enemy(object):
             finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
             self.path, _ = finder.find_path(start, end, self.grid)
             self.grid.cleanup()
-
 
     def move(self, diffx, diffy, blocked_side):
         if (not blocked_side['right'] and diffx > 0) or (not blocked_side['left'] and diffx < 0):
@@ -232,11 +227,8 @@ class Enemy(object):
 
 
 pygame.time.set_timer(pygame.USEREVENT, 500)
-
 zombie = []
-
 num_of_enemies = 30 // 2
-
 spawn = True
 
 
@@ -252,7 +244,7 @@ def spawner(count):
         time.sleep(3)
 
 
-t2 = Thread(target=spawner, args=(num_of_enemies,), daemon=True)
+t_spawner = Thread(target=spawner, args=(num_of_enemies,), daemon=True)
 
 
 

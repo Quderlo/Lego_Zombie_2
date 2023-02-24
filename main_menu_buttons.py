@@ -15,6 +15,10 @@ button_hover.set_volume(0.2)
 main_menu_music = pygame.mixer.Sound("assets/sounds/main_menu/main_menu_music.mp3")
 main_menu_music.set_volume(0.08)
 
+game_over_music = pygame.mixer.Sound("assets/sounds/main_menu/game_over.mp3")
+game_over_music.set_volume(0.08)
+
+
 def main_menu_button():
     global button_hover_state_solo, button_hover_state_duo, button_hover_state_exit
 
